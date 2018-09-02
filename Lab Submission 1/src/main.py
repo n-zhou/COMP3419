@@ -20,11 +20,8 @@ def invert(img):
 def ssd(b1, b2):
     # TODO replace with numpy functions
     sum = 0
-    for x in range(b1.shape[0]):
-        for y in range(b2.shape[1]):
-            for c in range(b2.shape[2]):
-                sum += math.pow(b1[x,y,c]-b2[x,y,c],2)
-    return math.sqrt(sum)
+    diff = b1-b2
+    return math.sqrt(np.sum(diff**2))
 
 def step1(img, k = 8):
     pass
@@ -54,31 +51,30 @@ def main(args):
     grey_frames = []
     binary_frames = []
     n_of_rows, n_of_columns, n_of_colour_channels = (None, None, None)
-    vid = cv2.VideoCapture(PATH_TO_FILE)
+    cap = cv2.VideoCapture(PATH_TO_FILE)
     # read in the frames
     while 1:
-        ret, frame = vid.read()
+        ret, frame = cap.read()
         if not ret:
             break
-        n_of_rows, n_of_columns, n_of_colour_channels =  frame.shape
+        n_of_rows, n_of_columns, n_of_colour_channels = frame.shape
         frames.append(frame)
-        grey_frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+        grey_frames.append(cv2.cvtColor(frames[-1], cv2.COLOR_BGR2GRAY))
         binary_frames.append(binarize(grey_frames[-1]))
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
     # release the resources
-    vid.release()
+    cap.release()
     cv2.destroyAllWindows()
 
-    yoyo = []
-    for i range(len(frames)):
-        yoyo.append({})
-        for x in range(int(n_of_columns/K))
+    splits = []
+    for i in range(len(frames)):
+        splits.append({})
+        for x in range(int(n_of_columns/K)):
             for y in range(int(n_of_rows/K)):
-                yoyo[i][(x,y)] = np.zeros(K,K)
-    for frame in binary_frames:
+                splits[-1][(x,y)] = np.zeros((K,K))
+
+    for frame in frames:
         cv2.imshow(PATH_TO_FILE, frame)
-        if cv2.waitKey(15) & 0xFF == ord('q'):
+        if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
 if __name__ == '__main__':
