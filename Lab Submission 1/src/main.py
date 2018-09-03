@@ -4,24 +4,10 @@ import os
 import sys
 import math
 
-# probably don't need this function
-def binarize(img):
-    return cv2.threshold(img, 128, 255, cv2.THRESH_BINARY)[1]
-
-# probably don't need this function
-def invert(img):
-    inverted_img = np.copy(img)
-    for x in range(img.shape[0]):
-        for y in range(img.shape[1]):
-            inverted_img[x,y] = abs(255-img[x,y])
-    return inverted_img
 
 # calculating the sum of squared differences
 def ssd(b1, b2):
-    # TODO replace with numpy functions
-    sum = 0
-    diff = b1-b2
-    return math.sqrt(np.sum(diff**2))
+    return math.sqrt(np.sum((b1-b2)**2))
 
 def step1(img, k = 8):
     pass
@@ -45,8 +31,6 @@ if __name__ == '__main__':
     K = 8
     PATH_TO_FILE = 'monkey.avi'
     frames = []
-    grey_frames = []
-    binary_frames = []
     n_of_rows, n_of_columns, n_of_colour_channels = (None, None, None)
     cap = cv2.VideoCapture(PATH_TO_FILE)
     # read in the frames
