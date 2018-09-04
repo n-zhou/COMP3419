@@ -13,8 +13,15 @@ def ssd(b1, b2):
 def check_valid(img, x1, x2, y1, y2):
     return x1 >= 0 and x2 <= img.shape[0] and y1 >= 0 and y2 <= img.shape[1]
 
-def step1(img, k = 8):
-    pass
+def step1(frame, k = 8):
+    for x in range(0,frame.shape[0],8):
+        for y in range(0,frame.shape[1],8):
+            if check_valid(frame,x,x+8,y,y+8):
+                pass
+    step = 4
+    while step != 1:
+
+        step *= 1/2
 
 def step2():
     pass
@@ -45,8 +52,9 @@ if __name__ == '__main__':
     # release the resources
     cap.release()
     cv2.destroyAllWindows()
-z
+
+    counter = 0
     for frame in frames:
-        cv2.imshow(PATH_TO_FILE, frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        step1(frame)
+        cv2.imwrite('./output/frame%d.png' % counter, frame)
+        counter += 1
