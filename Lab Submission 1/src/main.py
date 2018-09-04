@@ -13,27 +13,15 @@ def ssd(b1, b2):
 def check_valid(img, x1, x2, y1, y2):
     return x1 >= 0 and x2 <= img.shape[0] and y1 >= 0 and y2 <= img.shape[1]
 
-def step1(frame, k = 8):
-    for x in range(0,frame.shape[0],8):
-        for y in range(0,frame.shape[1],8):
-            if check_valid(frame,x,x+8,y,y+8):
-                pass
-    step = 4
-    while step != 1:
-
-        step *= 1/2
-
-def step2():
-    pass
-
-def step3():
-    pass
-
-def step4():
-    pass
-
-def step5():
-    pass
+def magic(frame1, frame2, k = 8):
+    # they come in size 2 because we hold 2 vectors
+    displacement_vectors = np.array((int(frame1.shape[0]/k), int(frame1.shape[1]/k), 2))
+    for x in range(0,frame1.shape[0],k):
+        for y in range(0,frame1.shape[1],k):
+            if check_valid(frame1,x,x+k,y,y+k):
+                macroblock = frame1[x:x+k,y:y+k]
+    # return the displacement vectors xd
+    return displacement_vectors
 
 
 if __name__ == '__main__':
