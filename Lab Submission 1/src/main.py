@@ -20,8 +20,7 @@ def magic(frame1, frame2, k = 8):
         for y in range(0,frame1.shape[1],k):
             if check_valid(frame1,x,x+k,y,y+k):
                 macroblock = frame1[x:x+k,y:y+k]
-
-
+                ssd(macroblock, macroblock)
     # return the displacement vectors xd
     return displacement_vectors
 
@@ -44,17 +43,21 @@ if __name__ == '__main__':
     cv2.destroyAllWindows()
 
     # write an output vid
-    out = cv2.VideoWriter('outputVid.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 24, (int(frames[-1].shape[1]), int(frames[-1].shape[0])))
+    #out = cv2.VideoWriter('outputVid.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 24, (int(frames[-1].shape[1]), int(frames[-1].shape[0])))
     for index in range(1,len(frames)):
         copy = np.copy(frames[index])
         for x in range(int(copy.shape[0]/K)):
             for y in range(int(copy.shape[1]/K)):
                 displacement_vectors = magic(frames[index-1], frames[index],K)
+                # TODO v1 < displacement vectors to be displayed < v2
+                # v1 -> 0
+                # v2 -> ?
                 if displacement_vectors[x,y,0] == 0 and displacement_vectors[x,y,1] == 0:
                     continue
+                # visualising the displacements
                 copy = cv2.circle(copy, (int(y*K + displacement_vectors[x,y,1]), int(x*K + displacement_vectors[x,y,0])), 1, (0,0,255), thickness=1, lineType=-1, shift=0)
         cv2.imwrite('./output/frame%d.png' % index, copy)
-        out.write(copy)
+        #out.write(copy)
 
     out.release()
     cv2.destroyAllWindows()
