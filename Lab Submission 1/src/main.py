@@ -19,8 +19,17 @@ def magic(frame1, frame2, k = 8):
     for x in range(0,frame1.shape[0],k):
         for y in range(0,frame1.shape[1],k):
             if check_valid(frame1,x,x+k,y,y+k):
-                macroblock = frame1[x:x+k,y:y+k]
-                ssd(macroblock, macroblock)
+                macroblock1 = frame1[x:x+k,y:y+k]
+                s = 4
+                center = (int((x+x+k)/2),int((y+y+k)/2))
+                while s >= 1:
+                    for i in range(x-1,x+1):
+                        for y in range(y-1,y+1):
+                            
+                    ssd(macroblock1, macroblock1)
+                    s /= 2
+                displacement_vectors[int(x/k), int(y/k),0] = center[0]
+                displacement_vectors[int(x/k), int(y/k),1] = center[1]
     # return the displacement vectors xd
     return displacement_vectors
 
