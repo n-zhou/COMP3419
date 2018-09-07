@@ -59,7 +59,7 @@ if __name__ == '__main__':
     cv2.destroyAllWindows()
 
     # write an output vid
-    #out = cv2.VideoWriter('outputVid.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 24, (int(frames[-1].shape[1]), int(frames[-1].shape[0])))
+    out = cv2.VideoWriter('outputVid.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 24, (int(frames[-1].shape[1]), int(frames[-1].shape[0])))
     for index in range(1,len(frames)):
         copy = np.copy(frames[index])
         displacement_vectors = magic(frames[index-1], frames[index],K)
@@ -69,14 +69,13 @@ if __name__ == '__main__':
                 # v1 -> 0
                 # v2 -> ?
                 length = math.sqrt((displacement_vectors[x,y,0]**2)+(displacement_vectors[x,y,1]**2))
-                if length < 8:
+                if length < 10:
                     continue
                 # visualising the displacements
                 copy = cv2.circle(copy, (int((y*K + y*K+K)/2 + displacement_vectors[x,y,1]), int((x*K + x*K+K)/2 + displacement_vectors[x,y,0])), 3, (0,0,255), -1)
                 # copy = cv2.line(copy, (int((y*K + y*K+K)/2 + displacement_vectors[x,y,1]), int((x*K + x*K+K)/2 + displacement_vectors[x,y,0])), (int((y*K + y*K+K)/2) , int((x*K + x*K+K)/2 )), (0,0,255))
         cv2.imwrite('./output/frame%d.png' % index, copy)
-        #out.write(copy)
-        print('frame %d done!' % index)
+        out.write(copy)
 
-    #out.release()
+    out.release()
     cv2.destroyAllWindows()
