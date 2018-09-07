@@ -22,18 +22,21 @@ def magic(frame1, frame2, k = 8):
     displacement_vectors = np.zeros((int(frame1.shape[0]/k), int(frame1.shape[1]/k), 2))
     for x in range(0,frame1.shape[0],k):
         for y in range(0,frame1.shape[1],k):
-            check_valid(frame1, x,y)
-            mb1 = frame1[x:x+k,y:y+k]
-            step = 4
-            print(ssd(frame1, frame1))
-            while step >= 1:
-
-
-                step /= 2
-            '''
-            displacement_vectors[int(x/k), int(y/k), 0] =
-            displacement_vectors[int(x/k), int(y/k), 1] =
-            '''
+            if check_valid(frame1, x,y):
+                mb1 = frame1[x:x+k,y:y+k]
+                mb2 = frame2[x:x+k,y:y+k]
+                if ssd(mb1,mb2) < 100:
+                    continue
+                ssd_list = []
+                # search with a radius of length 8 around the macroblock
+                for i in range(x-8, x+8):
+                    for j in range(y-8,y+8):
+                        if check_valid(frame2, i, j):
+                            mb2 = frame2[i:i+k,j:j+k]
+                            ssd_list.append(((i,j),ssd(mb1,mb2)))
+                zzz = min(ssd_list, key=lambda x:x[1])[0]
+                displacement_vectors[int(x/k),int(y/k),0] = zzz[0]-x
+                displacement_vectors[int(x/k),int(y/k),1] = zzz[1]-y
     # return the displacement vectors xd
     return displacement_vectors
 
@@ -65,12 +68,15 @@ if __name__ == '__main__':
                 # TODO v1 < displacement vectors to be displayed < v2
                 # v1 -> 0
                 # v2 -> ?
-                if displacement_vectors[x,y,0] == 0 and displacement_vectors[x,y,1] == 0:
+                length = math.sqrt((displacement_vectors[x,y,0]**2)+(displacement_vectors[x,y,1]**2))
+                if length < 8:
                     continue
                 # visualising the displacements
-                copy = cv2.line(copy, (int(y*K + displacement_vectors[x,y,1]), int(x*K + displacement_vectors[x,y,0])), (int(y*K), int(x*K)), (0,0,255))
+                copy = cv2.circle(copy, (int((y*K + y*K+K)/2 + displacement_vectors[x,y,1]), int((x*K + x*K+K)/2 + displacement_vectors[x,y,0])), 3, (0,0,255), -1)
+                # copy = cv2.line(copy, (int((y*K + y*K+K)/2 + displacement_vectors[x,y,1]), int((x*K + x*K+K)/2 + displacement_vectors[x,y,0])), (int((y*K + y*K+K)/2) , int((x*K + x*K+K)/2 )), (0,0,255))
         cv2.imwrite('./output/frame%d.png' % index, copy)
         #out.write(copy)
+        print('frame %d done!' % index)
 
     #out.release()
     cv2.destroyAllWindows()
