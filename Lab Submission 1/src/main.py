@@ -25,7 +25,7 @@ def magic(frame1, frame2, k = 8):
             if check_valid(frame1, x,y):
                 mb1 = frame1[x:x+k,y:y+k]
                 mb2 = frame2[x:x+k,y:y+k]
-                if ssd(mb1,mb2) < 100:
+                if ssd(mb1,mb2) < 120:
                     continue
                 ssd_list = []
                 # search with a radius of length 8 around the macroblock
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     frames = []
     cap = cv2.VideoCapture(PATH_TO_FILE)
     # read in the frames
-    while 1 and len(frames) < 124:
+    while 1 and len(frames) < 250:
         ret, frame = cap.read()
         if not ret:
             break
