@@ -1,9 +1,10 @@
 ArrayList<PImage> texturePool;
 ArrayList<Ball> balls;
 java.util.Random rand;
+import javafx.geometry.Point3D;
 
 void setup() {
-  size(1000,600,P3D);
+  size(700,700,P3D);
   texturePool = new ArrayList<PImage>();
   texturePool.add(loadImage("earth.jpg"));
   texturePool.add(loadImage("moon.jpg"));
@@ -17,26 +18,33 @@ void draw() {
   for (Ball b : balls) {
     b.draw();
   }
-  
+  translate(width/2, height/2, -100);
+  stroke(255);
+  noFill();
+  box(700,700,700);
 }
 
 void mousePressed() {
-  balls.add(new Ball(new javafx.geometry.Point3D(mouseX, mouseY, 0)));
+  balls.add(new Ball(new Point3D(mouseX, mouseY, 0)));
 }
 
 class Ball {
   
-  javafx.geometry.Point3D point;
-  javafx.geometry.Point3D velocity;
+  Point3D point;
+  Point3D velocity;
   final int RADIUS = 30;
   PShape sphere;
   
-  Ball(javafx.geometry.Point3D point) {
+  Ball(Point3D point) {
     this.point = point;
-    velocity = new javafx.geometry.Point3D(4,5,-5);
-    sphere = createShape(SPHERE, 30);
+    sphere = createShape(SPHERE, RADIUS);
     sphere.setStroke(false);
     sphere.setTexture(texturePool.get(rand.nextInt(texturePool.size())));
+    
+    int vX = (rand.nextInt() % 2 == 0) ? rand.nextInt(100): -rand.nextInt(100);
+    int vY = (rand.nextInt() % 2 == 0) ? rand.nextInt(100): -rand.nextInt(100);
+    int vZ = -rand.nextInt(100);
+    velocity = new Point3D(vX,vY,vZ);
   }
   
   void draw() {
@@ -45,41 +53,55 @@ class Ball {
     shape(sphere);
     point = point.add(velocity);
     
-    if (point.getX() + RADIUS >= width) {
+    if (point.getX() >= width) {
         if (velocity.getX() >= 0) {
-          javafx.geometry.Point3D subtraction = new javafx.geometry.Point3D(2*velocity.getX(), 0,0);
+          Point3D subtraction = new Point3D(2*velocity.getX(), 0,0);
           velocity = velocity.subtract(subtraction);
         }
-    } else if (point.getX() - RADIUS <= 0) {
+    } else if (point.getX() <= 0) {
         if (velocity.getX() <= 0){
-          javafx.geometry.Point3D addittion = new javafx.geometry.Point3D(-2*velocity.getX(), 0,0);
+          Point3D addittion = new Point3D(-2*velocity.getX(), 0,0);
           velocity = velocity.add(addittion);
         }
     }
     
-    if (point.getY() + RADIUS >= height) {
+    if (point.getY() >= height) {
         if (velocity.getY() >= 0) {
-          javafx.geometry.Point3D subtraction = new javafx.geometry.Point3D(0, 2*velocity.getY(),0);
+          Point3D subtraction = new Point3D(0, 2*velocity.getY(),0);
           velocity = velocity.subtract(subtraction);
         }
-    } else if (point.getY() - RADIUS <= 0) {
+    } else if (point.getY() <= 0) {
         if (velocity.getY() <= 0){
-          javafx.geometry.Point3D addittion = new javafx.geometry.Point3D(0, -2*velocity.getY(),0);
+          Point3D addittion = new Point3D(0, -2*velocity.getY(),0);
           velocity = velocity.add(addittion);
         }
     }
     
-    if (point.getZ() <= -300) {
+    if (point.getZ() - RADIUS <= -700) {
       if (velocity.getZ() <= 0) {
-        javafx.geometry.Point3D addittion = new javafx.geometry.Point3D(0,0,-2*velocity.getZ());
+        Point3D addittion = new Point3D(0,0,-2*velocity.getZ());
         velocity = velocity.add(addittion);
       }
-    } else if (point.getZ() >= 100) {
+    } else if (point.getZ() >= 0) {
       if (velocity.getZ() >= 0) {
-        javafx.geometry.Point3D subtraction = new javafx.geometry.Point3D(0,0,2*velocity.getZ());
+        Point3D subtraction = new Point3D(0,0,2*velocity.getZ());
         velocity = velocity.subtract(subtraction);
       }
     }
+    
+    //speed decay
+    
+    
+    
+    if (point.magnitude() > 1){
+      //speed decay
+      velocity = velocity.multiply(0.99);
+      //gravity
+      velocity = velocity.add(new Point3D(0,0.1,0));
+    }
+    else
+      velocity = Point3D.ZERO;
+    
     popMatrix();
   }
   
