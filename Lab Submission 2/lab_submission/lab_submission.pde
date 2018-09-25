@@ -51,9 +51,9 @@ class Ball {
         sphere.setStroke(false);
         sphere.setTexture(texturePool.get(rand.nextInt(texturePool.size())));
 
-        int vX = (rand.nextInt() % 2 == 0) ? rand.nextInt(300): -rand.nextInt(300);
-        int vY = (rand.nextInt() % 2 == 0) ? rand.nextInt(300): -rand.nextInt(300);
-        int vZ = -rand.nextInt(300);
+        int vX = (rand.nextInt() % 2 == 0) ? rand.nextInt(100): -rand.nextInt(100);
+        int vY = (rand.nextInt() % 2 == 0) ? rand.nextInt(100): -rand.nextInt(100);
+        int vZ = -rand.nextInt(100);
         velocity = new Point3D(vX,vY,vZ);
     }
 
@@ -71,39 +71,39 @@ class Ball {
 
         if (point.getX() + RADIUS >= width) {
             if (velocity.getX() >= 0) {
-                Point3D subtraction = new Point3D(2*velocity.getX(), 0,0);
-                velocity = velocity.subtract(subtraction);
+                Point3D delta = new Point3D(2*velocity.getX(), 0,0);
+                velocity = velocity.subtract(delta);
             }
         } else if (point.getX() - RADIUS <= 0) {
             if (velocity.getX() <= 0){
-                Point3D addittion = new Point3D(-2*velocity.getX(), 0,0);
-                velocity = velocity.add(addittion);
+                Point3D delta = new Point3D(2*velocity.getX(), 0,0);
+                velocity = velocity.subtract(delta);
             }
         }
 
         if (point.getY() + RADIUS >= height) {
             if (velocity.getY() >= 0) {
-                Point3D subtraction = new Point3D(0, 2*velocity.getY(),0);
-                velocity = velocity.subtract(subtraction);
+                Point3D delta = new Point3D(0, 2*velocity.getY(),0);
+                velocity = velocity.subtract(delta);
             }
         } else if (point.getY() - RADIUS <= 0) {
             if (velocity.getY() <= 0){
-                Point3D addittion = new Point3D(0, -2*velocity.getY(),0);
-                velocity = velocity.add(addittion);
+                Point3D delta = new Point3D(0, 2*velocity.getY(),0);
+                velocity = velocity.subtract(delta);
             }
         }
 
         if (point.getZ() - RADIUS <= -700) {
             if (velocity.getZ() <= 0) {
-                Point3D addittion = new Point3D(0,0,-2*velocity.getZ());
-                velocity = velocity.add(addittion);
+                Point3D delta = new Point3D(0,0,2*velocity.getZ());
+                velocity = velocity.subtract(delta);
             }
-        } else if (point.getZ() + RADIUS >= 0) {
+        } /*else if (point.getZ() + RADIUS >= 0) {
             if (velocity.getZ() >= 0) {
                 Point3D subtraction = new Point3D(0,0,2*velocity.getZ());
                 velocity = velocity.subtract(subtraction);
             }
-        }
+        }*/
         //gravity
         velocity = velocity.add(new Point3D(0,0.1,0));
         if (velocity.magnitude() > 0.1) {
