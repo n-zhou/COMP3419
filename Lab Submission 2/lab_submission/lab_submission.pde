@@ -43,6 +43,7 @@ class Ball {
     Point3D velocity;
     final int RADIUS = 30;
     PShape sphere;
+    int lastFrameCount = 0;
 
     Ball(Point3D point) {
         this.point = point;
@@ -59,7 +60,12 @@ class Ball {
     void draw() {
         pushMatrix();
         translate((int)point.getX(), (int)point.getY(), (int)point.getZ());
-        rotateY(radians(frameCount));
+        if (velocity.magnitude() > 0.1) {
+            rotateY(radians(frameCount));
+            lastFrameCount = frameCount;
+        } else {
+            rotateY(radians(lastFrameCount));
+        }
         shape(sphere);
         point = point.add(velocity);
 
