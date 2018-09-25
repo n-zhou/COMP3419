@@ -71,7 +71,7 @@ class Ball {
             rotateY(radians(lastFrameCount));
         }
         shape(sphere);
-        point = point.add(velocity);
+
 
         if (point.getX() + RADIUS >= width) {
             if (velocity.getX() >= 0) {
@@ -102,21 +102,31 @@ class Ball {
                 Point3D delta = new Point3D(0,0,2*velocity.getZ());
                 velocity = velocity.subtract(delta);
             }
-        } /*else if (point.getZ() + RADIUS >= 0) {
+        } else if (point.getZ() + RADIUS >= 0) {
             if (velocity.getZ() >= 0) {
                 Point3D subtraction = new Point3D(0,0,2*velocity.getZ());
                 velocity = velocity.subtract(subtraction);
             }
-        }*/
-        //gravity
-        velocity = velocity.add(new Point3D(0,0.1,0));
-        if (velocity.magnitude() > 0.1) {
-
-            //speed decay
-            velocity = velocity.multiply(0.99);
-        } else {
-            velocity = Point3D.ZERO;
         }
+
+        if (velocity.magnitude() > 0.1) {
+            Point3D delta = new Point3D(velocity.getX(), 0, velocity.getZ()).multiply(0.01);
+            velocity = velocity.subtract(delta);
+        } else {
+            velocity = Point3D.ZERO.add(new Point3D(0,velocity.getY(),0));
+        }
+
+        if (velocity.getY() < 0) {
+            velocity = velocity.add(0,0.9,0);
+        } else if (velocity.getY() >= 0 && point.getY() + 30 < height) {
+            velocity = velocity.add(0,0.3,0);
+        }
+
+        if (Math.abs(height - (point.getY() + 30)) < 1 && velocity.getY() < 1 && velocity.getY() > 0) {
+            velocity = velocity.subtract(0,velocity.getY(),0);
+        }
+
+        point = point.add(velocity);
         popMatrix();
     }
 
