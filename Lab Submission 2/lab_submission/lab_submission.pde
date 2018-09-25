@@ -45,7 +45,7 @@ class Ball {
 
     Point3D point;
     Point3D velocity;
-    final int RADIUS = 30;
+    final int RADIUS = 45;
     PShape sphere;
     int lastFrameCount = 0;
 
@@ -118,11 +118,11 @@ class Ball {
 
         if (velocity.getY() < 0) {
             velocity = velocity.add(0,0.9,0);
-        } else if (velocity.getY() >= 0 && point.getY() + 30 < height) {
+        } else if (velocity.getY() >= 0 && point.getY() + RADIUS < height) {
             velocity = velocity.add(0,0.3,0);
         }
 
-        if (Math.abs(height - (point.getY() + 30)) < 1 && velocity.getY() < 1 && velocity.getY() > 0) {
+        if (Math.abs(height - (point.getY() + RADIUS)) < 1 && velocity.getY() < 1 && velocity.getY() > 0) {
             velocity = velocity.subtract(0,velocity.getY(),0);
         }
 
