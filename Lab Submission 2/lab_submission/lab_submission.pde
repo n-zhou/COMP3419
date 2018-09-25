@@ -9,11 +9,15 @@ void setup() {
     size(700,700,P3D);
     texturePool = new ArrayList<PImage>();
     texturePool.add(loadImage("earth.jpg"));
-    texturePool.add(loadImage("kevin.png"));
+    texturePool.add(loadImage("obama.jpg"));
     texturePool.add(loadImage("moon.jpg"));
     texturePool.add(loadImage("reddit.jpg"));
     texturePool.add(loadImage("trump.jpg"));
     texturePool.add(loadImage("usa.png"));
+    texturePool.add(loadImage("hillary.jpg"));
+    texturePool.add(loadImage("scomo.jpg"));
+    texturePool.add(loadImage("tones.jpg"));
+    texturePool.add(loadImage("farage.jpg"));
     balls = new ArrayList<Ball>();
     rand = new java.util.Random();
 }
