@@ -6,7 +6,7 @@ def replace(background, foreground):
     for x in range(ret.shape[0]):
         for y in range(ret.shape[1]):
             if foreground[x,y,0] < 120:
-                ret[x,y,z] = foreground[x,y,z]
+                ret[x,y] = foreground[x,y]
     return ret
 
 
@@ -16,7 +16,6 @@ if __name__ == '__main__':
 
     # read in the video
     cap = cv2.VideoCapture('monkey (option1).mov')
-
     frames = []
     while 1 :
         ret, frame = cap.read()
