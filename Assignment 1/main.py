@@ -5,9 +5,9 @@ class IntelligentObject():
 
     def __init__(self):
         pass
-        
-lower_hsv = np.array([160,100,100])
-upper_hsv = np.array([179,255,255])
+
+lower_hsv = np.array([0,100,100])
+upper_hsv = np.array([10,255,255])
 
 def replace(foreground):
     ret = np.copy(foreground)
@@ -37,15 +37,16 @@ if __name__ == '__main__':
             break
         frames.append(frame)
         cv2.imshow('show',frame)
-        if cv2.waitKey(1) == ord('q'):
+        if cv2.waitKey(24) == ord('q'):
             break
     # cleanup
     cap.release()
     cv2.destroyAllWindows()
 
-
+    '''
     for img in frames:
         cv2.imshow('show', replace(img))
         if cv2.waitKey(15) == ord('q'):
             break
     cv2.destroyAllWindows()
+    '''
