@@ -133,7 +133,7 @@ class Ball {
     void resolveCollision(Ball other) {
         if (this == other)
             return;
-        if (point.distance(other.point) <= RADIUS) {
+        if (point.distance(other.point) <= 2*RADIUS) {
             //resolve colission
 
             Point3D collisionVector = other.point.subtract(this.point).normalize();

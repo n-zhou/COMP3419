@@ -25,7 +25,7 @@ def magic(frame1, frame2, k = 8):
             if check_valid(frame1, x,y):
                 mb1 = frame1[x:x+k,y:y+k]
                 mb2 = frame2[x:x+k,y:y+k]
-                if ssd(mb1,mb2) < 120:
+                if ssd(mb1,mb2) < 150:
                     continue
                 ssd_list = []
                 # search with a radius of length 8 around the macroblock
@@ -35,8 +35,10 @@ def magic(frame1, frame2, k = 8):
                             mb2 = frame2[i:i+k,j:j+k]
                             ssd_list.append(((i,j),ssd(mb1,mb2)))
                 zzz = min(ssd_list, key=lambda x:x[1])[0]
-                displacement_vectors[int(x/k),int(y/k),0] = zzz[0]-x
-                displacement_vectors[int(x/k),int(y/k),1] = zzz[1]-y
+                if min(ssd_list, key=lambda x:x[1])[1] > 200:
+                    displacement_vectors[int(x/k),int(y/k),0] = zzz[0]-x
+                    displacement_vectors[int(x/k),int(y/k),1] = zzz[1]-y
+
     # return the displacement vectors xd
     return displacement_vectors
 
@@ -69,13 +71,14 @@ if __name__ == '__main__':
                 # v1 -> 0
                 # v2 -> ?
                 length = math.sqrt((displacement_vectors[x,y,0]**2)+(displacement_vectors[x,y,1]**2))
-                if length < 10:
-                    continue
                 # visualising the displacements
-                copy = cv2.circle(copy, (int((y*K + y*K+K)/2 + displacement_vectors[x,y,1]), int((x*K + x*K+K)/2 + displacement_vectors[x,y,0])), 3, (0,0,255), -1)
+                copy = cv2.circle(copy, (int((y*K + y*K+K)/2 + displacement_vectors[x,y,1]), int((x*K + x*K+K)/2 + displacement_vectors[x,y,0])), int(length/2), (0,0,255), -1)
                 # copy = cv2.line(copy, (int((y*K + y*K+K)/2 + displacement_vectors[x,y,1]), int((x*K + x*K+K)/2 + displacement_vectors[x,y,0])), (int((y*K + y*K+K)/2) , int((x*K + x*K+K)/2 )), (0,0,255))
         cv2.imwrite('./output/frame%d.png' % index, copy)
+        cv2.imshow('zzz', copy)
         out.write(copy)
+        if cv2.waitKey(15) == ord('q'):
+            break
 
     out.release()
     cv2.destroyAllWindows()
