@@ -11,9 +11,9 @@ def threshold_red(img):
     frame_threshold1 = cv2.inRange(hsv_img, np.array([0, 100, 100],np.uint8), np.array([10, 255, 255],np.uint8))
     frame_threshold2 = cv2.inRange(hsv_img, np.array([160, 100, 100],np.uint8), np.array([179, 255, 255],np.uint8))
     final_threshold = frame_threshold1 + frame_threshold2
-    erosion = cv2.erode(final_threshold,np.ones((3,3)),iterations = 4)
-    dilation = cv2.dilate(erosion,np.ones((3,3)),iterations = 4)
-    return erosion
+    erosion = cv2.erode(final_threshold,np.ones((5,5)),iterations = 2)
+    dilation = cv2.dilate(erosion,np.ones((5,5)),iterations=3)
+    return dilation
 
 
 if __name__ == '__main__':
