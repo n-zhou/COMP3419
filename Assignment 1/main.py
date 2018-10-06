@@ -15,11 +15,28 @@ def threshold_red(img):
     dilation = cv2.dilate(erosion,np.ones((5,5)),iterations=3)
     return dilation
 
+def combine(bg, fg):
+    ret = np.copy(bg)
+    thesholded_img = threshold_red(fg)
+    for x in range(bg.shape[0]):
+        for y in range(bg.shape[1]):
+            if thesholded_img[x,y] != 0:
+                ret[x,y,0] = fg[x,y,0]
+                ret[x,y,1] = fg[x,y,1]
+                ret[x,y,2] = fg[x,y,2]
+
+    return ret
 
 if __name__ == '__main__':
+
+    background = cv2.imread('tokyo.jpg')
+
     # read in the video
     cap = cv2.VideoCapture('monkey (option1).mov')
 
+    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    print(height,width)
     frames = []
 
     while 1 :
@@ -31,7 +48,7 @@ if __name__ == '__main__':
     cap.release()
 
     for img in frames:
-        cv2.imshow('show', threshold_red(img))
+        cv2.imshow('show', combine(background, img))
         if cv2.waitKey(15) == ord('q'):
             break
     cv2.destroyAllWindows()
