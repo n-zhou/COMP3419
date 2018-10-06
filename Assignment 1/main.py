@@ -1,10 +1,37 @@
 import cv2
 import numpy as np
+import random
+
+FRAME_WIDTH = None
+FRAME_HEIGHT = None
 
 class IntelligentObject():
 
-    def __init__(self):
-        pass
+    def __init__(self, img, x=0, y=0):
+        self.img = cv2.resize(img, (0,0), fx=0.3, fy=0.3)
+        self.x = x
+        self.y = y
+        self.velocity = [random.randint(-10, 10),random.randint(-10, 10)]
+
+    def move(self):
+        self.x += self.velocity[0]
+        self.y += self.velocity[1]
+        if self.velocity[0] < 0 and self.x <= 0:
+            self.velocity[0] *= -1
+        if self.velocity[0] > 0 and self.x + self.img.shape[0] >= FRAME_WIDTH:
+            self.velocity[0] *= -1
+        if self.velocity[1] < 0 and self.y <= 0:
+            self.velocity[1] *= -1
+        if self.velocity[1] > 0 and self.y + self.img.shape[1] >= FRAME_HEIGHT:
+            self.velocity[1] *= -1
+
+    def draw(self, bg):
+        bgr_img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
+        for x in range(self.img.shape[0]):
+            for y in range(self.img.shape[1]):
+                if x + self.y < bg.shape[0] and y + self.x < bg.shape[1]:
+                    if self.img[x,y,0] != 0:
+                        bg[x+self.y,y+self.x] = bgr_img[x,y]
 
 def play_random_sound():
     from threading import Thread
@@ -37,11 +64,14 @@ def combine(bg, fg):
 if __name__ == '__main__':
     background = cv2.imread('tokyo.jpg')
 
+    hillary = IntelligentObject(cv2.imread('hillary.png', cv2.IMREAD_UNCHANGED))
+    trump = IntelligentObject(cv2.imread('trump.png', cv2.IMREAD_UNCHANGED), 100,100)
+    obama = IntelligentObject(cv2.imread('obama.png', cv2.IMREAD_UNCHANGED), 200,200)
     # read in the video
     cap = cv2.VideoCapture('monkey (option1).mov')
 
-    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    FRAME_HEIGHT = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    FRAME_WIDTH = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
     frames = []
 
     while 1 :
@@ -52,10 +82,16 @@ if __name__ == '__main__':
     # cleanup
     cap.release()
     #out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 24, (int(width), int(height)))
+    counter = 1
     for img in frames:
         #out.write(combine(background, img))
-        trump = cv2.imread('trump.png', cv2.IMREAD_UNCHANGED)
-        cv2.imshow('show', combine(background,trump))
+        copy = np.copy(background)
+        hillary.draw(copy)
+        obama.draw(copy)
+        trump.draw(copy)
+        hillary.move()
+        obama.move()
+        cv2.imshow('show', copy)
         if cv2.waitKey(30) == ord('q'):
             break
     #out.release()
