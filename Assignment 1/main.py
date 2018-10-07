@@ -88,6 +88,7 @@ if __name__ == '__main__':
         for intelligent in intelligent_objects:
             intelligent.draw_on_background(copy)
             intelligent.move()
+        trump.draw_on_background(copy)
         cv2.imshow('show', copy)
         if cv2.waitKey(30) == ord('q'):
             break
