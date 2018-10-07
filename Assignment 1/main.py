@@ -11,21 +11,18 @@ class IntelligentObject():
         self.img = cv2.resize(img, (0,0), fx=0.3, fy=0.3)
         self.x = x
         self.y = y
-        self.velocity = [random.randint(-10, 10),random.randint(-10, 10)]
+        sequence = [i for i in range(-10, 11, 1) if i != 0]
+        self.velocity = [random.choice(sequence),random.choice(sequence)]
 
     def move(self):
         self.x += self.velocity[0]
         self.y += self.velocity[1]
-        if self.velocity[0] < 0 and self.x <= 0:
+        if (self.velocity[0] < 0 and self.x <= 0) or (self.velocity[0] > 0 and self.x + self.img.shape[0] >= FRAME_WIDTH):
             self.velocity[0] *= -1
-        if self.velocity[0] > 0 and self.x + self.img.shape[0] >= FRAME_WIDTH:
-            self.velocity[0] *= -1
-        if self.velocity[1] < 0 and self.y <= 0:
-            self.velocity[1] *= -1
-        if self.velocity[1] > 0 and self.y + self.img.shape[1] >= FRAME_HEIGHT:
+        if (self.velocity[1] < 0 and self.y <= 0) or (self.velocity[1] > 0 and self.y + self.img.shape[1] >= FRAME_HEIGHT):
             self.velocity[1] *= -1
 
-    def draw(self, bg):
+    def draw_on_background(self, bg):
         bgr_img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
         for x in range(self.img.shape[0]):
             for y in range(self.img.shape[1]):
@@ -67,6 +64,8 @@ if __name__ == '__main__':
     hillary = IntelligentObject(cv2.imread('hillary.png', cv2.IMREAD_UNCHANGED))
     trump = IntelligentObject(cv2.imread('trump.png', cv2.IMREAD_UNCHANGED), 100,100)
     obama = IntelligentObject(cv2.imread('obama.png', cv2.IMREAD_UNCHANGED), 200,200)
+    intelligent_objects = [hillary, obama]
+
     # read in the video
     cap = cv2.VideoCapture('monkey (option1).mov')
 
@@ -86,11 +85,9 @@ if __name__ == '__main__':
     for img in frames:
         #out.write(combine(background, img))
         copy = np.copy(background)
-        hillary.draw(copy)
-        obama.draw(copy)
-        trump.draw(copy)
-        hillary.move()
-        obama.move()
+        for intelligent in intelligent_objects:
+            intelligent.draw_on_background(copy)
+            intelligent.move()
         cv2.imshow('show', copy)
         if cv2.waitKey(30) == ord('q'):
             break
