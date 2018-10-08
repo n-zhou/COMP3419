@@ -65,17 +65,6 @@ def make_clusters(points, clusters=None):
         current_centroids.append(key)
     return clusters, change
 
-def combine(bg, fg):
-    ret = np.copy(bg)
-    t_channel_fg = cv2.cvtColor(fg, cv2.COLOR_BGRA2BGR)
-    #thesholded_img = threshold_red(fg)
-    for x in range(bg.shape[0]):
-        for y in range(bg.shape[1]):
-            if x < fg.shape[0] and y < fg.shape[1]:
-                if fg[x,y,0] != 0:
-                    ret[x,y] = t_channel_fg[x,y]
-    return ret
-
 if __name__ == '__main__':
     background = cv2.imread('./images/tokyo.jpg')
 
@@ -100,10 +89,10 @@ if __name__ == '__main__':
     cap.release()
     out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 30, (int(FRAME_WIDTH), int(FRAME_HEIGHT)))
     for img in frames:
-        copy = np.copy(background)
-        cv2.imshow('show', copy)
-        out.write(copy)
-        if cv2.waitKey(1) == ord('q'):
+        #copy = np.copy(background)
+        cv2.imshow('show', threshold_red(img))
+        #out.write(copy)
+        if cv2.waitKey(30) == ord('q'):
             break
     out.release()
     cv2.destroyAllWindows()
