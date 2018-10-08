@@ -46,6 +46,16 @@ def threshold_red(img):
     opening = cv2.morphologyEx(final_threshold, cv2.MORPH_OPEN, kernel)
     return opening
 
+def get_points(img):
+    points = []
+    binary_img = threshold_red(img)
+    columns, rows = binary_img.shape[0], binary_img.shape[1]
+    for x in range(columns):
+        for y in range(rows):
+            if binary_img[x,y] != 0:
+                points.add((x,y))
+    return points
+
 def distance(p1, p2):
     return ((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)**0.5
 
@@ -59,7 +69,6 @@ def make_clusters(points, clusters=None):
             if not closest or distance(point, closest) > distance(point, key):
                 closest = key
         clusters[closest].append(point)
-
     current_centroids = []
     for key in sorted(clusters):
         current_centroids.append(key)
@@ -78,21 +87,21 @@ if __name__ == '__main__':
 
     FRAME_HEIGHT = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
     FRAME_WIDTH = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-    frames = []
 
+    frames = []
     while 1 :
         ret, frame = cap.read()
         if not ret:
             break
         frames.append(frame)
-    # cleanup
     cap.release()
+
     out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 30, (int(FRAME_WIDTH), int(FRAME_HEIGHT)))
     for img in frames:
         #copy = np.copy(background)
         cv2.imshow('show', threshold_red(img))
-        #out.write(copy)
-        if cv2.waitKey(30) == ord('q'):
+        out.write(img)
+        if cv2.waitKey(1) == ord('q'):
             break
     out.release()
     cv2.destroyAllWindows()
