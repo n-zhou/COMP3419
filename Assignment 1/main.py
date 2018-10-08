@@ -46,6 +46,24 @@ def threshold_red(img):
     opening = cv2.morphologyEx(final_threshold, cv2.MORPH_OPEN, kernel)
     return opening
 
+def distance(p1, p2):
+    return ((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)**0.5
+
+def make_clusters(points, clusters=None):
+    change = False
+    if not clusters:
+        clusters = {(0,0): [], (FRAME_HEIGHT,FRAME_WIDTH): [], (0,FRAME_HEIGHT): [], (FRAME_HEIGHT/2, FRAME_WIDTH/2): [], (FRAME_HEIGHT,FRAME_WIDTH): []}
+    for point in points:
+        closest = None
+        for key in clusters:
+            if not closest or distance(point, closest) > distance(point, key):
+                closest = key
+        clusters[closest].append(point)
+
+    current_centroids = []
+    for key in sorted(clusters):
+        current_centroids.append(key)
+    return clusters, change
 
 def combine(bg, fg):
     ret = np.copy(bg)
@@ -80,17 +98,12 @@ if __name__ == '__main__':
         frames.append(frame)
     # cleanup
     cap.release()
-    #out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 24, (int(width), int(height)))
-    counter = 1
+    out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 30, (int(FRAME_WIDTH), int(FRAME_HEIGHT)))
     for img in frames:
-        #out.write(combine(background, img))
         copy = np.copy(background)
-        for intelligent in intelligent_objects:
-            intelligent.draw_on_background(copy)
-            intelligent.move()
-        trump.draw_on_background(copy)
         cv2.imshow('show', copy)
-        if cv2.waitKey(30) == ord('q'):
+        out.write(copy)
+        if cv2.waitKey(1) == ord('q'):
             break
-    #out.release()
+    out.release()
     cv2.destroyAllWindows()
