@@ -77,11 +77,11 @@ def combine(bg, fg):
     return ret
 
 if __name__ == '__main__':
-    background = cv2.imread('tokyo.jpg')
+    background = cv2.imread('./images/tokyo.jpg')
 
-    hillary = IntelligentObject(cv2.imread('hillary.png', cv2.IMREAD_UNCHANGED))
-    trump = IntelligentObject(cv2.imread('trump.png', cv2.IMREAD_UNCHANGED), 100,100)
-    obama = IntelligentObject(cv2.imread('obama.png', cv2.IMREAD_UNCHANGED), 200,200)
+    hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED))
+    trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), 100,100)
+    obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), 200,200)
     intelligent_objects = [hillary, obama]
 
     # read in the video
