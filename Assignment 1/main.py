@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import random
+import math
 
 FRAME_WIDTH = None
 FRAME_HEIGHT = None
@@ -30,6 +31,16 @@ class IntelligentObject():
                     if self.img[x,y,0] != 0:
                         bg[x+self.y,y+self.x] = bgr_img[x,y]
 
+    def draw_at(self, bg, point):
+        bgr_img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
+        rows, columns, chanels = bgr_img.shape
+        for x in range(self.img.shape[0]):
+            for y in range(self.img.shape[1]):
+                if x + point[0] - int(rows/2) < bg.shape[0] and y + point[1] - int(columns/2) < bg.shape[1]:
+                    if self.img[x,y,0] != 0:
+                        bg[x+point[0]-int(rows/2),y+point[1]-int(columns/2)] = bgr_img[x,y]
+
+
 def play_random_sound():
     from threading import Thread
     def play(arg):
@@ -53,26 +64,35 @@ def get_points(img):
     for x in range(columns):
         for y in range(rows):
             if binary_img[x,y] != 0:
-                points.add((x,y))
+                points.append((x,y))
     return points
 
 def distance(p1, p2):
     return ((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)**0.5
 
 def make_clusters(points, clusters=None):
-    change = False
     if not clusters:
-        clusters = {(0,0): [], (FRAME_HEIGHT,FRAME_WIDTH): [], (0,FRAME_HEIGHT): [], (FRAME_HEIGHT/2, FRAME_WIDTH/2): [], (FRAME_HEIGHT,FRAME_WIDTH): []}
+        clusters = {(120,180): [], (80,280): [], (260,230): [], (170, 265): [], (240,270): []}
+    new_clusters = {}
     for point in points:
         closest = None
         for key in clusters:
-            if not closest or distance(point, closest) > distance(point, key):
+            if closest is None or distance(point, closest) > distance(point, key):
                 closest = key
         clusters[closest].append(point)
-    current_centroids = []
-    for key in sorted(clusters):
-        current_centroids.append(key)
-    return clusters, change
+    change = False
+    for key in clusters:
+        center_x, center_y = 0, 0
+        x = [p[0] for p in clusters[key]]
+        y = [p[1] for p in clusters[key]]
+        center_x = np.mean(x)
+        center_y = np.mean(y)
+        center_x = int(center_x) if not math.isnan(center_x) else key[0]
+        center_y = int(center_y) if not math.isnan(center_y) else key[1]
+        new_clusters[(center_x, center_y)] = []
+        if center_x != key[0] or center_y != key[1]:
+            change = True
+    return clusters if not change else make_clusters(points, new_clusters)
 
 if __name__ == '__main__':
     background = cv2.imread('./images/tokyo.jpg')
@@ -95,13 +115,21 @@ if __name__ == '__main__':
             break
         frames.append(frame)
     cap.release()
-
+    clusters = None
     out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 30, (int(FRAME_WIDTH), int(FRAME_HEIGHT)))
     for img in frames:
-        #copy = np.copy(background)
-        cv2.imshow('show', threshold_red(img))
-        out.write(img)
-        if cv2.waitKey(1) == ord('q'):
+        copy = np.copy(background)
+        points = get_points(img)
+        clusters = make_clusters(points) if not clusters else make_clusters(points, clusters)
+        binary_image = threshold_red(img)
+        back_to_gbr = cv2.cvtColor(binary_image,cv2.COLOR_GRAY2BGR)
+        for counter, centroid in enumerate(clusters):
+            cv2.circle(copy, (centroid[1], centroid[0]), 5, (0,0,255), -1)
+            if counter == 3:
+                trump.draw_at(copy, centroid)
+        cv2.imshow('show', copy)
+        out.write(copy)
+        if cv2.waitKey(30) == ord('q'):
             break
     out.release()
     cv2.destroyAllWindows()
