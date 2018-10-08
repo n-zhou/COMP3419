@@ -8,8 +8,8 @@ FRAME_HEIGHT = None
 
 class IntelligentObject():
 
-    def __init__(self, img, x=0, y=0):
-        self.img = cv2.resize(img, (0,0), fx=0.3, fy=0.3)
+    def __init__(self, img, fx=0.3, fy=0.3, x=0, y=0):
+        self.img = cv2.resize(img, (0,0), fx=fx, fy=fy)
         self.x = x
         self.y = y
         sequence = [i for i in range(-10, 11, 1) if i != 0]
@@ -97,9 +97,9 @@ def make_clusters(points, clusters=None):
 if __name__ == '__main__':
     background = cv2.imread('./images/tokyo.jpg')
 
-    hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED))
-    trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), 100,100)
-    obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), 200,200)
+    hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED), 0.2, 0.2)
+    trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), 0.2,0.2)
+    obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), x=200,y=200)
     intelligent_objects = [hillary, obama]
 
     # read in the video
@@ -123,13 +123,20 @@ if __name__ == '__main__':
         clusters = make_clusters(points) if not clusters else make_clusters(points, clusters)
         binary_image = threshold_red(img)
         back_to_gbr = cv2.cvtColor(binary_image,cv2.COLOR_GRAY2BGR)
+        '''
+        for intel in intelligent_objects:
+            intel.draw_on_background(copy)
+        '''
+        cluster_keys = list(clusters.keys())
         for counter, centroid in enumerate(clusters):
-            cv2.circle(copy, (centroid[1], centroid[0]), 5, (0,0,255), -1)
             if counter == 3:
                 trump.draw_at(copy, centroid)
+            else:
+                #cv2.circle(copy, (centroid[1], centroid[0]), 5, (0,0,255), -1)
+                cv2.line(copy, (cluster_keys[3][1],cluster_keys[3][0]), (centroid[1], centroid[0]),(0,255,0), 1)
         cv2.imshow('show', copy)
         out.write(copy)
-        if cv2.waitKey(30) == ord('q'):
+        if cv2.waitKey(1) == ord('q'):
             break
     out.release()
     cv2.destroyAllWindows()
