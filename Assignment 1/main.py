@@ -54,8 +54,11 @@ def threshold_red(img):
     frame_threshold2 = cv2.inRange(hsv_img, np.array([160, 100, 100],np.uint8), np.array([179, 255, 255],np.uint8))
     final_threshold = frame_threshold1 + frame_threshold2
     kernel = np.ones((3,3))
-    opening = cv2.morphologyEx(final_threshold, cv2.MORPH_OPEN, kernel)
-    return opening
+
+    erosion = cv2.erode(final_threshold,kernel,iterations=3)
+    dilation = cv2.dilate(erosion,kernel,iterations=2)
+    #opening = cv2.morphologyEx(final_threshold, cv2.MORPH_OPEN, kernel)
+    return dilation
 
 def get_points(img):
     points = []
@@ -72,7 +75,7 @@ def distance(p1, p2):
 
 def make_clusters(points, clusters=None):
     if not clusters:
-        clusters = {(120,180): [], (80,280): [], (260,230): [], (170, 265): [], (240,270): []}
+        clusters = {(120,180): [], (80,280): [], (260,230): [], (240,270): [], (170, 265): []}
     new_clusters = {}
     for point in points:
         closest = None
@@ -118,24 +121,38 @@ if __name__ == '__main__':
     clusters = None
     out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 30, (int(FRAME_WIDTH), int(FRAME_HEIGHT)))
     for img in frames:
-        copy = np.copy(background)
         points = get_points(img)
         clusters = make_clusters(points) if not clusters else make_clusters(points, clusters)
         binary_image = threshold_red(img)
         back_to_gbr = cv2.cvtColor(binary_image,cv2.COLOR_GRAY2BGR)
+        for value, centroid in enumerate(clusters):
+            circle_colour = None
+            if value == 0:
+                circle_colour = (255,0,0)
+            elif value == 1:
+                circle_colour = (0,255,0)
+            elif value == 2:
+                circle_colour = (0,0,255)
+            elif value == 3:
+                circle_colour = (180,105,255)
+            else:
+                circle_colour = (0,255,255)
+            cv2.circle(back_to_gbr, (centroid[1], centroid[0]), 5, circle_colour, -1)
         '''
+        copy = np.copy(background)
         for intel in intelligent_objects:
             intel.draw_on_background(copy)
-        '''
         cluster_keys = list(clusters.keys())
         for counter, centroid in enumerate(clusters):
-            if counter == 3:
+            if counter == 4:
                 trump.draw_at(copy, centroid)
             else:
                 #cv2.circle(copy, (centroid[1], centroid[0]), 5, (0,0,255), -1)
-                cv2.line(copy, (cluster_keys[3][1],cluster_keys[3][0]), (centroid[1], centroid[0]),(0,255,0), 1)
+                cv2.line(copy, (cluster_keys[4][1],cluster_keys[4][0]), (centroid[1], centroid[0]),(0,255,0), 1)
         cv2.imshow('show', copy)
-        out.write(copy)
+        '''
+        cv2.imshow('show', back_to_gbr)
+        out.write(back_to_gbr)
         if cv2.waitKey(1) == ord('q'):
             break
     out.release()
