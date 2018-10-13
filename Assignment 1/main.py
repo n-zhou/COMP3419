@@ -53,12 +53,11 @@ def threshold_red(img):
     frame_threshold1 = cv2.inRange(hsv_img, np.array([0, 100, 100],np.uint8), np.array([10, 255, 255],np.uint8))
     frame_threshold2 = cv2.inRange(hsv_img, np.array([160, 100, 100],np.uint8), np.array([179, 255, 255],np.uint8))
     final_threshold = frame_threshold1 + frame_threshold2
-    kernel = np.ones((3,3))
-
-    erosion = cv2.erode(final_threshold,kernel,iterations=3)
-    dilation = cv2.dilate(erosion,kernel,iterations=2)
-    #opening = cv2.morphologyEx(final_threshold, cv2.MORPH_OPEN, kernel)
-    return dilation
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(5,5))
+    erosion = cv2.erode(final_threshold,kernel,iterations=2)
+    dilation = cv2.dilate(erosion, kernel,iterations=1)
+    erosion = cv2.erode(dilation,kernel,iterations=1)
+    return erosion
 
 def get_points(img):
     points = []
@@ -119,8 +118,11 @@ if __name__ == '__main__':
         frames.append(frame)
     cap.release()
     clusters = None
-    out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 30, (int(FRAME_WIDTH), int(FRAME_HEIGHT)))
-    for img in frames:
+    FRAME_RATE = 20
+    out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), FRAME_RATE, (int(FRAME_WIDTH), int(FRAME_HEIGHT)))
+    for count, img in enumerate(frames):
+        if count > FRAME_RATE*31:
+            break
         points = get_points(img)
         clusters = make_clusters(points) if not clusters else make_clusters(points, clusters)
         binary_image = threshold_red(img)
@@ -138,7 +140,6 @@ if __name__ == '__main__':
             else:
                 circle_colour = (0,255,255)
             cv2.circle(back_to_gbr, (centroid[1], centroid[0]), 5, circle_colour, -1)
-        '''
         copy = np.copy(background)
         for intel in intelligent_objects:
             intel.draw_on_background(copy)
@@ -149,8 +150,7 @@ if __name__ == '__main__':
             else:
                 #cv2.circle(copy, (centroid[1], centroid[0]), 5, (0,0,255), -1)
                 cv2.line(copy, (cluster_keys[4][1],cluster_keys[4][0]), (centroid[1], centroid[0]),(0,255,0), 1)
-        cv2.imshow('show', copy)
-        '''
+        cv2.imwrite('./frames/%d.png' % count, back_to_gbr)
         cv2.imshow('show', back_to_gbr)
         out.write(back_to_gbr)
         if cv2.waitKey(1) == ord('q'):
