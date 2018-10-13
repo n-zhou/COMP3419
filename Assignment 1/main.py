@@ -97,7 +97,7 @@ def make_clusters(points, clusters=None):
     return clusters if not change else make_clusters(points, new_clusters)
 
 if __name__ == '__main__':
-    background = cv2.imread('./images/tokyo.jpg')
+    background = cv2.resize(cv2.imread('./images/whitehouse.jpg'), (568,320))
 
     hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED), 0.2, 0.2)
     trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), 0.2,0.2)
