@@ -37,7 +37,7 @@ class IntelligentObject():
         for x in range(self.img.shape[0]):
             for y in range(self.img.shape[1]):
                 if x + point[0] - int(rows/2) < bg.shape[0] and y + point[1] - int(columns/2) < bg.shape[1]:
-                    if self.img[x,y,0] != 0:
+                    if self.img[x,y,3] > 127:
                         bg[x+point[0]-int(rows/2),y+point[1]-int(columns/2)] = bgr_img[x,y]
 
 
@@ -102,6 +102,10 @@ if __name__ == '__main__':
     hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED), 0.2, 0.2)
     trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), 0.2,0.2)
     obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), x=200,y=200)
+    hand = IntelligentObject(cv2.imread('./images/hand.png', cv2.IMREAD_UNCHANGED), 0.05,0.05)
+    right_hand = IntelligentObject(cv2.imread('./images/righthand.png', cv2.IMREAD_UNCHANGED), 0.05,0.05)
+    left_foot = IntelligentObject(cv2.imread('./images/leftfoot.png', cv2.IMREAD_UNCHANGED))
+    right_foot = IntelligentObject(cv2.imread('./images/rightfoot.png', cv2.IMREAD_UNCHANGED))
     intelligent_objects = [hillary, obama]
 
     # read in the video
@@ -117,6 +121,7 @@ if __name__ == '__main__':
             break
         frames.append(frame)
     cap.release()
+
     clusters = None
     FRAME_RATE = 20
     out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), FRAME_RATE, (int(FRAME_WIDTH), int(FRAME_HEIGHT)))
@@ -125,34 +130,21 @@ if __name__ == '__main__':
             break
         points = get_points(img)
         clusters = make_clusters(points) if not clusters else make_clusters(points, clusters)
-        binary_image = threshold_red(img)
-        back_to_gbr = cv2.cvtColor(binary_image,cv2.COLOR_GRAY2BGR)
-        for value, centroid in enumerate(clusters):
-            circle_colour = None
-            if value == 0:
-                circle_colour = (255,0,0)
-            elif value == 1:
-                circle_colour = (0,255,0)
-            elif value == 2:
-                circle_colour = (0,0,255)
-            elif value == 3:
-                circle_colour = (180,105,255)
-            else:
-                circle_colour = (0,255,255)
-            cv2.circle(back_to_gbr, (centroid[1], centroid[0]), 5, circle_colour, -1)
         copy = np.copy(background)
-        for intel in intelligent_objects:
-            intel.draw_on_background(copy)
         cluster_keys = list(clusters.keys())
         for counter, centroid in enumerate(clusters):
+            if counter == 0:
+                right_hand.draw_at(copy, centroid)
+            if counter == 1:
+                hand.draw_at(copy, centroid)
+            if counter == 2:
+                right_foot.draw_at(copy, centroid)
+            if counter == 3:
+                left_foot.draw_at(copy, centroid)
             if counter == 4:
                 trump.draw_at(copy, centroid)
-            else:
-                #cv2.circle(copy, (centroid[1], centroid[0]), 5, (0,0,255), -1)
-                cv2.line(copy, (cluster_keys[4][1],cluster_keys[4][0]), (centroid[1], centroid[0]),(0,255,0), 1)
-        cv2.imwrite('./frames/%d.png' % count, back_to_gbr)
-        cv2.imshow('show', back_to_gbr)
-        out.write(back_to_gbr)
+        cv2.imshow('show', copy)
+        out.write(copy)
         if cv2.waitKey(1) == ord('q'):
             break
     out.release()
