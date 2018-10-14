@@ -99,6 +99,15 @@ def make_clusters(points, clusters=None):
 if __name__ == '__main__':
     background = cv2.resize(cv2.imread('./images/whitehouse.jpg'), (568,320))
 
+    background_frames = []
+    cap = cv2.VideoCapture('./images/whitehouse.avi')
+    while 1 :
+        ret, frame = cap.read()
+        if not ret:
+            break
+        background_frames.append(frame)
+    cap.release()
+
     hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED), 0.2, 0.2)
     trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), 0.2,0.2)
     obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), x=200,y=200)
@@ -130,7 +139,7 @@ if __name__ == '__main__':
             break
         points = get_points(img)
         clusters = make_clusters(points) if not clusters else make_clusters(points, clusters)
-        copy = np.copy(background)
+        copy = np.copy(cv2.resize(background_frames[count], (568,320)))
         cluster_keys = list(clusters.keys())
         for counter, centroid in enumerate(clusters):
             if counter == 0:
