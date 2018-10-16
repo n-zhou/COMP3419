@@ -41,11 +41,11 @@ class IntelligentObject():
                         bg[x+point[0]-int(rows/2),y+point[1]-int(columns/2)] = bgr_img[x,y]
 
 
-def play_random_sound():
+def play_sound(name):
     from threading import Thread
     def play(arg):
         import winsound
-        winsound.PlaySound('./sounds/fired2.wav', winsound.SND_FILENAME)
+        winsound.PlaySound(name, winsound.SND_FILENAME)
     Thread(target=play, args=(None,)).start()
 
 def threshold_red(img):
@@ -133,7 +133,9 @@ if __name__ == '__main__':
 
     clusters = None
     FRAME_RATE = 20
+
     out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), FRAME_RATE, (int(FRAME_WIDTH), int(FRAME_HEIGHT)))
+
     for count, img in enumerate(frames):
         if count > FRAME_RATE*31:
             break
@@ -152,8 +154,16 @@ if __name__ == '__main__':
                 left_foot.draw_at(copy, centroid)
             if counter == 4:
                 trump.draw_at(copy, centroid)
+        hillary.draw_on_background(copy)
+        obama.draw_on_background(copy)
+        if min([distance((hillary.x, hillary.y), centroid) for centroid in clusters]) < 50:
+            play_sound('./sounds/fired2.wav')
+        if min([distance((obama.x, obama.y), centroid) for centroid in clusters]) < 50:
+            play_sound('./sounds/fired.wav')
         cv2.imshow('show', copy)
         out.write(copy)
+        hillary.move()
+        obama.move()
         if cv2.waitKey(1) == ord('q'):
             break
     out.release()
