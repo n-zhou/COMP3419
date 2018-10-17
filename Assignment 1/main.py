@@ -28,7 +28,7 @@ class IntelligentObject():
         for x in range(self.img.shape[0]):
             for y in range(self.img.shape[1]):
                 if x + self.y < bg.shape[0] and y + self.x < bg.shape[1]:
-                    if self.img[x,y,0] != 0:
+                    if self.img[x,y,3] > 127:
                         bg[x+self.y,y+self.x] = bgr_img[x,y]
 
     def draw_at(self, bg, point):
@@ -40,12 +40,17 @@ class IntelligentObject():
                     if self.img[x,y,3] > 127:
                         bg[x+point[0]-int(rows/2),y+point[1]-int(columns/2)] = bgr_img[x,y]
 
+from threading import Lock
+lock = Lock()
+playing = {}
 
 def play_sound(name):
     from threading import Thread
     def play(arg):
         import winsound
-        winsound.PlaySound(name, winsound.SND_FILENAME)
+        if lock.acquire(False):
+            winsound.PlaySound(name, winsound.SND_FILENAME)
+            lock.release()
     Thread(target=play, args=(None,)).start()
 
 def threshold_red(img):
@@ -136,6 +141,9 @@ if __name__ == '__main__':
 
     out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), FRAME_RATE, (int(FRAME_WIDTH), int(FRAME_HEIGHT)))
 
+    copies = []
+    sound = {}
+
     for count, img in enumerate(frames):
         if count > FRAME_RATE*31:
             break
@@ -157,14 +165,21 @@ if __name__ == '__main__':
         hillary.draw_on_background(copy)
         obama.draw_on_background(copy)
         if min([distance((hillary.x, hillary.y), centroid) for centroid in clusters]) < 50:
-            play_sound('./sounds/fired2.wav')
+            sound[count] = './sounds/nasty_woman.wav'
         if min([distance((obama.x, obama.y), centroid) for centroid in clusters]) < 50:
-            play_sound('./sounds/fired.wav')
-        cv2.imshow('show', copy)
+            if count not in sound:
+                sound[count] = './sounds/fired.wav'
         out.write(copy)
+        copies.append(copy)
         hillary.move()
         obama.move()
         if cv2.waitKey(1) == ord('q'):
             break
-    out.release()
-    cv2.destroyAllWindows()
+
+
+    for count, frame in enumerate(copies):
+        if count in sound:
+            play_sound(sound[count])
+        cv2.imshow('show', frame)
+        if cv2.waitKey(int(1000/20)) == ord('q'):
+            break
