@@ -13,6 +13,7 @@ class IntelligentObject():
         self.x = x
         self.y = y
         sequence = [i for i in range(-10, 11, 1) if i != 0]
+        self.radius = max(self.img.shape)
         self.velocity = [random.choice(sequence),random.choice(sequence)]
 
     def move(self):
@@ -39,6 +40,10 @@ class IntelligentObject():
                 if x + point[0] - int(rows/2) < bg.shape[0] and y + point[1] - int(columns/2) < bg.shape[1]:
                     if self.img[x,y,3] > 127:
                         bg[x+point[0]-int(rows/2),y+point[1]-int(columns/2)] = bgr_img[x,y]
+
+    def set(self,x,y):
+        self.x = x
+        self.y = y
 
 from threading import Lock
 lock = Lock()
@@ -114,14 +119,14 @@ if __name__ == '__main__':
     cap.release()
 
     hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED), 0.2, 0.2)
-    trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), 0.2,0.2)
     obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), x=200,y=200)
-    hand = IntelligentObject(cv2.imread('./images/hand.png', cv2.IMREAD_UNCHANGED), 0.05,0.05)
-    right_hand = IntelligentObject(cv2.imread('./images/righthand.png', cv2.IMREAD_UNCHANGED), 0.05,0.05)
+    trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), 0.2,0.2)
+    right_hand = IntelligentObject(cv2.imread('./images/right_hand.png', cv2.IMREAD_UNCHANGED), 0.05,0.05)
+    left_hand = IntelligentObject(cv2.imread('./images/left_hand.png', cv2.IMREAD_UNCHANGED), 0.05,0.05)
     left_foot = IntelligentObject(cv2.imread('./images/leftfoot.png', cv2.IMREAD_UNCHANGED))
     right_foot = IntelligentObject(cv2.imread('./images/rightfoot.png', cv2.IMREAD_UNCHANGED))
     intelligent_objects = [hillary, obama]
-
+    body_parts = [right_hand,left_hand,left_foot,right_foot,trump]
     # read in the video
     cap = cv2.VideoCapture('monkey (option1).mov')
 
@@ -152,29 +157,28 @@ if __name__ == '__main__':
         copy = np.copy(cv2.resize(background_frames[count], (568,320)))
         cluster_keys = list(clusters.keys())
         for counter, centroid in enumerate(clusters):
-            if counter == 0:
-                right_hand.draw_at(copy, centroid)
-            if counter == 1:
-                hand.draw_at(copy, centroid)
-            if counter == 2:
-                right_foot.draw_at(copy, centroid)
-            if counter == 3:
-                left_foot.draw_at(copy, centroid)
-            if counter == 4:
-                trump.draw_at(copy, centroid)
+            body_parts[counter].draw_at(copy,centroid)
+            body_parts[counter].set(centroid[0], centroid[1])
+
         for intel in intelligent_objects:
             intel.draw_on_background(copy)
             intel.move()
-        if min([distance((hillary.x, hillary.y), centroid) for centroid in clusters]) < 50:
-            sound[count] = './sounds/nasty_woman.wav'
-        if min([distance((obama.x, obama.y), centroid) for centroid in clusters]) < 50:
-            if count not in sound:
-                sound[count] = './sounds/fired.wav'
+            for body_part in body_parts:
+                if distance((intel.x, intel.y), (body_part.x, body_part.y)) <= min(intel.radius,body_part.radius):
+                    sound[count] = ('./sounds/fired.wav')
+                    intel.velocity[0] = -intel.velocity[0]
+                    intel.velocity[1] = -intel.velocity[1]
         out.write(copy)
         copies.append(copy)
+        cv2.imshow('show',copy)
         if cv2.waitKey(1) == ord('q'):
             break
-            
+        out.release()
+
+    # clear the list for garbage collection
+    frames = []
+    background_frames = []
+
     for count, frame in enumerate(copies):
         if count in sound:
             play_sound(sound[count])
