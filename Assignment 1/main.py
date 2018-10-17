@@ -162,8 +162,9 @@ if __name__ == '__main__':
                 left_foot.draw_at(copy, centroid)
             if counter == 4:
                 trump.draw_at(copy, centroid)
-        hillary.draw_on_background(copy)
-        obama.draw_on_background(copy)
+        for intel in intelligent_objects:
+            intel.draw_on_background(copy)
+            intel.move()
         if min([distance((hillary.x, hillary.y), centroid) for centroid in clusters]) < 50:
             sound[count] = './sounds/nasty_woman.wav'
         if min([distance((obama.x, obama.y), centroid) for centroid in clusters]) < 50:
@@ -171,12 +172,9 @@ if __name__ == '__main__':
                 sound[count] = './sounds/fired.wav'
         out.write(copy)
         copies.append(copy)
-        hillary.move()
-        obama.move()
         if cv2.waitKey(1) == ord('q'):
             break
-
-
+            
     for count, frame in enumerate(copies):
         if count in sound:
             play_sound(sound[count])

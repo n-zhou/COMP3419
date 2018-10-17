@@ -6,6 +6,7 @@
 * Windows Operating System
 * python winsound library installed
 * python open cv library
+* hardware that supports audio output
 
 ## How to run
 '''
