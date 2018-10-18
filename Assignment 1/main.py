@@ -8,12 +8,13 @@ FRAME_HEIGHT = None
 
 class IntelligentObject():
 
-    def __init__(self, img, fx=0.3, fy=0.3, x=0, y=0):
+    def __init__(self, img, sound=None, fx=0.3, fy=0.3, x=None, y=None):
         self.img = cv2.resize(img, (0,0), fx=fx, fy=fy)
         self.x = x
         self.y = y
         sequence = [i for i in range(-10, 11, 1) if i != 0]
         self.radius = max(self.img.shape)
+        self.sound = sound
         self.velocity = [random.choice(sequence),random.choice(sequence)]
 
     def move(self):
@@ -30,7 +31,7 @@ class IntelligentObject():
             for y in range(self.img.shape[1]):
                 if x + self.y < bg.shape[0] and y + self.x < bg.shape[1]:
                     if self.img[x,y,3] > 127:
-                        bg[x+self.y,y+self.x] = bgr_img[x,y]
+                        bg[int(x+self.y),int(y+self.x)] = bgr_img[x,y]
 
     def draw_at(self, bg, point):
         bgr_img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
@@ -44,6 +45,54 @@ class IntelligentObject():
     def set(self,x,y):
         self.x = x
         self.y = y
+
+    def set_velocity(self,x,y):
+        self.velocity = [x,y]
+
+    def resolve(self, body_part):
+        '''
+        Point3D collisionVector = other.point.subtract(this.point).normalize();
+
+        double vA = collisionVector.dotProduct(this.velocity);
+        double vB = collisionVector.dotProduct(other.velocity);
+
+        if (vA <= 0 && vB >= 0) return;
+
+        println("Resolving collision");
+        double mR = 1;
+        double a = -(mR + 1);
+        double b = 2 * (mR * vB + vA);
+        double c = -((mR - 1) * vB * vB + 2 * vA * vB);
+        double discriminant = Math.sqrt(b * b - 4 * a * c);
+        double root = (-b + discriminant)/(2 * a);
+        //only one of the roots is the solution, the other pertains to the current velocities
+        if (root - vB < 0.01) {
+            root = (-b - discriminant)/(2 * a);
+        }
+        this.velocity = this.velocity.add(collisionVector.multiply((vB - root)));
+        other.velocity = other.velocity.add(collisionVector.multiply((root - vB)));
+        '''
+        #from sklearn.preprocessing import normalize
+        collisionVector = np.array([body_part.x - self.x, body_part.y-self.y])
+        collisionVector = collisionVector/ np.linalg.norm(collisionVector)
+
+        vA = np.dot(collisionVector, self.velocity)
+        vB = np.dot(collisionVector, body_part.velocity)
+
+        mR = 1
+        a = -(mR + 1)
+        b = 2 * (mR * vB + vA)
+        c = -((mR - 1) * vB * vB + 2 * vA * vB)
+        discriminant = math.sqrt(b * b - 4 * a * c)
+        root = (-b + discriminant)/(2 * a)
+        # only one of the roots is the solution, the other pertains to the current velocities
+        if root - vB < 0.01:
+            root = (-b - discriminant)/(2 * a)
+        self.velocity = self.velocity + collisionVector * (vB - root)
+
+
+    def make_noise(self):
+        play_sound(self.sound)
 
 from threading import Lock
 lock = Lock()
@@ -118,13 +167,13 @@ if __name__ == '__main__':
         background_frames.append(frame)
     cap.release()
 
-    hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED), 0.2, 0.2)
-    obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), x=200,y=200)
-    trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), 0.2,0.2)
-    right_hand = IntelligentObject(cv2.imread('./images/right_hand.png', cv2.IMREAD_UNCHANGED), 0.05,0.05)
-    left_hand = IntelligentObject(cv2.imread('./images/left_hand.png', cv2.IMREAD_UNCHANGED), 0.05,0.05)
-    left_foot = IntelligentObject(cv2.imread('./images/leftfoot.png', cv2.IMREAD_UNCHANGED))
-    right_foot = IntelligentObject(cv2.imread('./images/rightfoot.png', cv2.IMREAD_UNCHANGED))
+    hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED),'./sounds/nasty_woman.wav', 0.2, 0.2,x=0,y=0)
+    obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), './sounds/fired.wav',x=150,y=400)
+    trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), None,0.2,0.2)
+    right_hand = IntelligentObject(cv2.imread('./images/right_hand.png', cv2.IMREAD_UNCHANGED), None,0.05,0.05)
+    left_hand = IntelligentObject(cv2.imread('./images/left_hand.png', cv2.IMREAD_UNCHANGED), None,0.05,0.05)
+    left_foot = IntelligentObject(cv2.imread('./images/leftfoot.png', cv2.IMREAD_UNCHANGED), None)
+    right_foot = IntelligentObject(cv2.imread('./images/rightfoot.png', cv2.IMREAD_UNCHANGED),None)
     intelligent_objects = [hillary, obama]
     body_parts = [right_hand,left_hand,left_foot,right_foot,trump]
     # read in the video
@@ -158,16 +207,24 @@ if __name__ == '__main__':
         cluster_keys = list(clusters.keys())
         for counter, centroid in enumerate(clusters):
             body_parts[counter].draw_at(copy,centroid)
-            body_parts[counter].set(centroid[0], centroid[1])
+
+            if body_parts[counter].x is None:
+                body_parts[counter].set(centroid[0], centroid[1])
+                body_parts[counter].set_velocity(0,0)
+            else:
+                body_parts[counter].set_velocity(centroid[0]-body_parts[counter].x, centroid[1]-body_parts[counter].y)
+                body_parts[counter].set(centroid[0], centroid[1])
 
         for intel in intelligent_objects:
             intel.draw_on_background(copy)
             intel.move()
             for body_part in body_parts:
-                if distance((intel.x, intel.y), (body_part.x, body_part.y)) <= min(intel.radius,body_part.radius):
-                    sound[count] = ('./sounds/fired.wav')
-                    intel.velocity[0] = -intel.velocity[0]
-                    intel.velocity[1] = -intel.velocity[1]
+                if distance((intel.x, intel.y), (body_part.x, body_part.y)) <= max(intel.radius,body_part.radius):
+                    intel.resolve(body_part)
+                    if count not in sound:
+                        sound[count] = []
+                    sound[count].append(intel)
+                    break
         out.write(copy)
         copies.append(copy)
         cv2.imshow('show',copy)
@@ -181,7 +238,8 @@ if __name__ == '__main__':
 
     for count, frame in enumerate(copies):
         if count in sound:
-            play_sound(sound[count])
+            for intel in sound[count]:
+                intel.make_noise()
         cv2.imshow('show', frame)
         if cv2.waitKey(int(1000/20)) == ord('q'):
             break
