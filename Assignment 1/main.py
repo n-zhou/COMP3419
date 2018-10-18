@@ -20,18 +20,20 @@ class IntelligentObject():
     def move(self):
         self.x += self.velocity[0]
         self.y += self.velocity[1]
-        if (self.velocity[0] < 0 and self.x <= 0) or (self.velocity[0] > 0 and self.x + self.img.shape[0] >= FRAME_WIDTH):
+        if (self.velocity[0] < 0 and self.x <= 0) or (self.velocity[0] > 0 and self.x + self.img.shape[0] >= FRAME_HEIGHT):
             self.velocity[0] *= -1
-        if (self.velocity[1] < 0 and self.y <= 0) or (self.velocity[1] > 0 and self.y + self.img.shape[1] >= FRAME_HEIGHT):
+        if (self.velocity[1] < 0 and self.y <= 0) or (self.velocity[1] > 0 and self.y + self.img.shape[1] >= FRAME_WIDTH):
             self.velocity[1] *= -1
 
     def draw_on_background(self, bg):
         bgr_img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
+
         for x in range(self.img.shape[0]):
             for y in range(self.img.shape[1]):
-                if x + self.y < bg.shape[0] and y + self.x < bg.shape[1]:
+                if x + self.x < bg.shape[0] and y + self.y < bg.shape[1]:
                     if self.img[x,y,3] > 127:
-                        bg[int(x+self.y),int(y+self.x)] = bgr_img[x,y]
+                        bg[int(x+self.x),int(y+self.y)] = bgr_img[x,y]
+
 
     def calculate_center(self):
         return int(self.x+self.img.shape[0]/2), int(self.y + self.img.shape[1] / 2)
@@ -171,7 +173,7 @@ if __name__ == '__main__':
     cap.release()
 
     hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED),'./sounds/nasty_woman.wav', 0.2, 0.2,x=0,y=0)
-    obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), './sounds/fired.wav',x=150,y=400)
+    obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), './sounds/fired.wav',x=300,y=200)
     trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), None,0.2,0.2)
     right_hand = IntelligentObject(cv2.imread('./images/right_hand.png', cv2.IMREAD_UNCHANGED), None,0.05,0.05)
     left_hand = IntelligentObject(cv2.imread('./images/left_hand.png', cv2.IMREAD_UNCHANGED), None,0.05,0.05)
@@ -233,7 +235,7 @@ if __name__ == '__main__':
         cv2.imshow('show',copy)
         if cv2.waitKey(1) == ord('q'):
             break
-        out.release()
+    out.release()
 
     # clear the list for garbage collection
     frames = []
