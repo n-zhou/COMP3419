@@ -13,7 +13,7 @@ class IntelligentObject():
         self.x = x
         self.y = y
         sequence = [i for i in range(-10, 11, 1) if i != 0]
-        self.radius = max(self.img.shape)
+        self.radius = max([int(element/2) for element in self.img.shape])
         self.sound = sound
         self.velocity = [random.choice(sequence),random.choice(sequence)]
 
@@ -222,12 +222,12 @@ if __name__ == '__main__':
             intel.draw_on_background(copy)
             intel.move()
             for body_part in body_parts:
-                if distance(intel.calculate_center(), body_part.calculate_center()) <= max(intel.radius,body_part.radius):
+                if distance(intel.calculate_center(), body_part.calculate_center()) <= intel.radius + body_part.radius:
                     intel.resolve(body_part)
                     if count not in sound:
                         sound[count] = []
-                    sound[count].append(intel)
-                    break
+                    #sound[count].append(intel)
+                    #break
         out.write(copy)
         copies.append(copy)
         cv2.imshow('show',copy)
