@@ -41,11 +41,20 @@ class IntelligentObject():
     def draw_at(self, bg, point):
         bgr_img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
         rows, columns, chanels = bgr_img.shape
+        '''
         for x in range(self.img.shape[0]):
             for y in range(self.img.shape[1]):
                 if x + point[0] - int(rows/2) < bg.shape[0] and y + point[1] - int(columns/2) < bg.shape[1]:
                     if self.img[x,y,3] > 127:
                         bg[x+point[0]-int(rows/2),y+point[1]-int(columns/2)] = bgr_img[x,y]
+        '''
+        endX = min(bg.shape[0], point[0] + bgr_img.shape[0])
+        endY = min(bg.shape[1], point[1] + bgr_img.shape[1])
+
+        # bg[point[0]:endX, point[1]:endY] = bgr_img[0:max(endX-point[0],0),0:max(endY-point[1],0)]
+        bg[point[0]:endX, point[1]:endY, 0] = np.where(self.img[:max(endX-point[0],0),:max(endY-point[1],0),3] > 127, self.img[:max(endX-point[0],0),:max(endY-point[1],0),0],bg[point[0]:endX, point[1]:endY, 0])
+        bg[point[0]:endX, point[1]:endY, 1] = np.where(self.img[:max(endX-point[0],0),:max(endY-point[1],0),3] > 127, self.img[:max(endX-point[0],0),:max(endY-point[1],0),1],bg[point[0]:endX, point[1]:endY, 1])
+        bg[point[0]:endX, point[1]:endY, 2] = np.where(self.img[:max(endX-point[0],0),:max(endY-point[1],0),3] > 127, self.img[:max(endX-point[0],0),:max(endY-point[1],0),2],bg[point[0]:endX, point[1]:endY, 2])
 
     def set(self,x,y):
         self.x = x
@@ -219,7 +228,7 @@ if __name__ == '__main__':
             else:
                 body_parts[counter].set_velocity(centroid[0]-body_parts[counter].x, centroid[1]-body_parts[counter].y)
                 body_parts[counter].set(centroid[0], centroid[1])
-
+        '''
         for intel in intelligent_objects:
             intel.draw_on_background(copy)
             intel.move()
@@ -230,6 +239,7 @@ if __name__ == '__main__':
                         sound[count] = []
                     #sound[count].append(intel)
                     #break
+        '''
         out.write(copy)
         copies.append(copy)
         cv2.imshow('show',copy)
