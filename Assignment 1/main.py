@@ -33,6 +33,9 @@ class IntelligentObject():
                     if self.img[x,y,3] > 127:
                         bg[int(x+self.y),int(y+self.x)] = bgr_img[x,y]
 
+    def calculate_center(self):
+        return int(self.x+self.img.shape[0]/2), int(self.y + self.img.shape[1] / 2)
+
     def draw_at(self, bg, point):
         bgr_img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
         rows, columns, chanels = bgr_img.shape
@@ -73,13 +76,13 @@ class IntelligentObject():
         other.velocity = other.velocity.add(collisionVector.multiply((root - vB)));
         '''
         #from sklearn.preprocessing import normalize
-        collisionVector = np.array([body_part.x - self.x, body_part.y-self.y])
+        collisionVector = np.array([body_part.calculate_center()[0] - self.calculate_center()[0], body_part.calculate_center()[1]-self.calculate_center()[1]])
         collisionVector = collisionVector/ np.linalg.norm(collisionVector)
 
         vA = np.dot(collisionVector, self.velocity)
         vB = np.dot(collisionVector, body_part.velocity)
 
-        mR = 1
+        mR = 3
         a = -(mR + 1)
         b = 2 * (mR * vB + vA)
         c = -((mR - 1) * vB * vB + 2 * vA * vB)
@@ -219,7 +222,7 @@ if __name__ == '__main__':
             intel.draw_on_background(copy)
             intel.move()
             for body_part in body_parts:
-                if distance((intel.x, intel.y), (body_part.x, body_part.y)) <= max(intel.radius,body_part.radius):
+                if distance(intel.calculate_center(), body_part.calculate_center()) <= max(intel.radius,body_part.radius):
                     intel.resolve(body_part)
                     if count not in sound:
                         sound[count] = []
