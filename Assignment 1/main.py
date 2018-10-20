@@ -27,13 +27,14 @@ class IntelligentObject():
 
     def draw_on_background(self, bg):
         bgr_img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
-        for x in range(self.img.shape[0]):
-            for y in range(self.img.shape[1]):
-                if x + self.x < bg.shape[0] and y + self.y < bg.shape[1]:
-                    if self.img[x,y,3] > 127:
-                        bg[int(x+self.x),int(y+self.y)] = bgr_img[x,y]
-        #self.draw_at(bg, (int(self.x), int(self.y)))
-
+        try:
+            self.draw_at(bg, (int(self.x), int(self.y)))
+        except:
+            for x in range(self.img.shape[0]):
+                for y in range(self.img.shape[1]):
+                    if x + self.x < bg.shape[0] and y + self.y < bg.shape[1]:
+                        if self.img[x,y,3] > 127:
+                            bg[int(x+self.x),int(y+self.y)] = bgr_img[x,y]
 
     def calculate_center(self):
         return int(self.x+self.img.shape[0]/2), int(self.y + self.img.shape[1] / 2)
