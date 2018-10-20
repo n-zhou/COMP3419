@@ -27,12 +27,12 @@ class IntelligentObject():
 
     def draw_on_background(self, bg):
         bgr_img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
-
         for x in range(self.img.shape[0]):
             for y in range(self.img.shape[1]):
                 if x + self.x < bg.shape[0] and y + self.y < bg.shape[1]:
                     if self.img[x,y,3] > 127:
                         bg[int(x+self.x),int(y+self.y)] = bgr_img[x,y]
+        #self.draw_at(bg, (int(self.x), int(self.y)))
 
 
     def calculate_center(self):
@@ -41,13 +41,6 @@ class IntelligentObject():
     def draw_at(self, bg, point):
         bgr_img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
         rows, columns, chanels = bgr_img.shape
-        '''
-        for x in range(self.img.shape[0]):
-            for y in range(self.img.shape[1]):
-                if x + point[0] - int(rows/2) < bg.shape[0] and y + point[1] - int(columns/2) < bg.shape[1]:
-                    if self.img[x,y,3] > 127:
-                        bg[x+point[0]-int(rows/2),y+point[1]-int(columns/2)] = bgr_img[x,y]
-        '''
         endX = min(bg.shape[0], point[0] + bgr_img.shape[0])
         endY = min(bg.shape[1], point[1] + bgr_img.shape[1])
 
@@ -64,29 +57,6 @@ class IntelligentObject():
         self.velocity = [x,y]
 
     def resolve(self, body_part):
-        '''
-        Point3D collisionVector = other.point.subtract(this.point).normalize();
-
-        double vA = collisionVector.dotProduct(this.velocity);
-        double vB = collisionVector.dotProduct(other.velocity);
-
-        if (vA <= 0 && vB >= 0) return;
-
-        println("Resolving collision");
-        double mR = 1;
-        double a = -(mR + 1);
-        double b = 2 * (mR * vB + vA);
-        double c = -((mR - 1) * vB * vB + 2 * vA * vB);
-        double discriminant = Math.sqrt(b * b - 4 * a * c);
-        double root = (-b + discriminant)/(2 * a);
-        //only one of the roots is the solution, the other pertains to the current velocities
-        if (root - vB < 0.01) {
-            root = (-b - discriminant)/(2 * a);
-        }
-        this.velocity = this.velocity.add(collisionVector.multiply((vB - root)));
-        other.velocity = other.velocity.add(collisionVector.multiply((root - vB)));
-        '''
-        #from sklearn.preprocessing import normalize
         collisionVector = np.array([body_part.calculate_center()[0] - self.calculate_center()[0], body_part.calculate_center()[1]-self.calculate_center()[1]])
         collisionVector = collisionVector/ np.linalg.norm(collisionVector)
 
@@ -181,8 +151,8 @@ if __name__ == '__main__':
         background_frames.append(frame)
     cap.release()
 
-    hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED),'./sounds/nasty_woman.wav', 0.2, 0.2,x=0,y=0)
-    obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), './sounds/fired.wav',x=300,y=200)
+    hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED),'./sounds/nasty_woman.wav', 0.2, 0.2,x=10,y=10)
+    obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), './sounds/fired.wav',x=150,y=150)
     trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), None,0.2,0.2)
     right_hand = IntelligentObject(cv2.imread('./images/right_hand.png', cv2.IMREAD_UNCHANGED), None,0.05,0.05)
     left_hand = IntelligentObject(cv2.imread('./images/left_hand.png', cv2.IMREAD_UNCHANGED), None,0.05,0.05)
@@ -228,7 +198,6 @@ if __name__ == '__main__':
             else:
                 body_parts[counter].set_velocity(centroid[0]-body_parts[counter].x, centroid[1]-body_parts[counter].y)
                 body_parts[counter].set(centroid[0], centroid[1])
-        '''
         for intel in intelligent_objects:
             intel.draw_on_background(copy)
             intel.move()
@@ -239,7 +208,6 @@ if __name__ == '__main__':
                         sound[count] = []
                     #sound[count].append(intel)
                     #break
-        '''
         out.write(copy)
         copies.append(copy)
         cv2.imshow('show',copy)

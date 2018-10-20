@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.8.31)  6 OCT 2018 18:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.8.31)  20 OCT 2018 17:21
 entering extended mode
 **./Report.tex
 (Report.tex
@@ -108,7 +108,14 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 [1
 
 {C:/Users/nzhou/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-(Report.toc)
+(Report.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 3.
+)
 \tf@toc=\write3
 \openout3 = `Report.toc'.
 
@@ -118,17 +125,17 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
  [1] [2] (Report.aux) ) 
 Here is how much of TeX's memory you used:
- 744 strings out of 493308
- 10415 string characters out of 3138768
- 68946 words of memory out of 3000000
- 4348 multiletter control sequences out of 15000+200000
- 6063 words of font info for 22 fonts, out of 3000000 for 9000
+ 762 strings out of 493308
+ 10615 string characters out of 3138768
+ 70946 words of memory out of 3000000
+ 4360 multiletter control sequences out of 15000+200000
+ 8808 words of font info for 31 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 23i,6n,19p,154b,195s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 23i,6n,19p,166b,195s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
 2.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on Report.pdf (3 pages, 39141 bytes).
+Output written on Report.pdf (3 pages, 46925 bytes).
 PDF statistics:
  24 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
