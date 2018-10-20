@@ -206,8 +206,7 @@ if __name__ == '__main__':
                     intel.resolve(body_part)
                     if count not in sound:
                         sound[count] = []
-                    #sound[count].append(intel)
-                    #break
+                    sound[count].append(intel)
         out.write(copy)
         copies.append(copy)
         cv2.imshow('show',copy)
