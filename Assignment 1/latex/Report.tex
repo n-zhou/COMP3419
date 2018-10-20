@@ -1,6 +1,8 @@
 \documentclass[12pt,a4paper]{article}
 \setcounter{tocdepth}{2}
 \usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
 
 \begin{document}
 
@@ -48,5 +50,20 @@
     \section{Conclusion}
     The implementation of k-medoids was very susceptible to noise. Fast movements would often results in the clusters being messed up.\
     The crossing over of red markers did not...
+
+    \begin{figure}[h]
+      \caption{A still image of a special effect being triggered when an intelligent object collides with the marionette}
+      \includegraphics[width=8cm]{pow}
+    \end{figure}
+
+    \begin{figure}[h]
+      \caption{Example of the marked centers being accurate}
+      \includegraphics[width=8cm]{192}
+    \end{figure}
+
+    \begin{figure}[h]
+      \caption{Example of the clusters being misidentified}
+      \includegraphics[width=8cm]{952}
+    \end{figure}
 
 \end{document}
