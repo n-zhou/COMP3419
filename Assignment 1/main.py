@@ -159,7 +159,7 @@ if __name__ == '__main__':
     left_foot = IntelligentObject(cv2.imread('./images/leftfoot.png', cv2.IMREAD_UNCHANGED), None)
     right_foot = IntelligentObject(cv2.imread('./images/rightfoot.png', cv2.IMREAD_UNCHANGED),None)
     intelligent_objects = [hillary, obama]
-    body_parts = [right_hand,left_hand,left_foot,right_foot,trump]
+    body_parts = [right_hand,left_hand,right_foot,left_foot,trump]
     # read in the video
     cap = cv2.VideoCapture('monkey (option1).mov')
 
