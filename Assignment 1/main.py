@@ -5,6 +5,7 @@ import math
 
 FRAME_WIDTH = None
 FRAME_HEIGHT = None
+POW = None
 
 class IntelligentObject():
 
@@ -30,6 +31,9 @@ class IntelligentObject():
         try:
             self.draw_at(bg, (int(self.x), int(self.y)))
         except:
+            '''
+            use for loops if and exception is caught
+            '''
             for x in range(self.img.shape[0]):
                 for y in range(self.img.shape[1]):
                     if x + self.x < bg.shape[0] and y + self.y < bg.shape[1]:
@@ -46,9 +50,16 @@ class IntelligentObject():
         endY = min(bg.shape[1], point[1] + bgr_img.shape[1])
 
         # bg[point[0]:endX, point[1]:endY] = bgr_img[0:max(endX-point[0],0),0:max(endY-point[1],0)]
-        bg[point[0]:endX, point[1]:endY, 0] = np.where(self.img[:max(endX-point[0],0),:max(endY-point[1],0),3] > 127, self.img[:max(endX-point[0],0),:max(endY-point[1],0),0],bg[point[0]:endX, point[1]:endY, 0])
-        bg[point[0]:endX, point[1]:endY, 1] = np.where(self.img[:max(endX-point[0],0),:max(endY-point[1],0),3] > 127, self.img[:max(endX-point[0],0),:max(endY-point[1],0),1],bg[point[0]:endX, point[1]:endY, 1])
-        bg[point[0]:endX, point[1]:endY, 2] = np.where(self.img[:max(endX-point[0],0),:max(endY-point[1],0),3] > 127, self.img[:max(endX-point[0],0),:max(endY-point[1],0),2],bg[point[0]:endX, point[1]:endY, 2])
+        try:
+            bg[point[0]:endX, point[1]:endY, 0] = np.where(self.img[:max(endX-point[0],0),:max(endY-point[1],0),3] > 127, self.img[:max(endX-point[0],0),:max(endY-point[1],0),0],bg[point[0]:endX, point[1]:endY, 0])
+            bg[point[0]:endX, point[1]:endY, 1] = np.where(self.img[:max(endX-point[0],0),:max(endY-point[1],0),3] > 127, self.img[:max(endX-point[0],0),:max(endY-point[1],0),1],bg[point[0]:endX, point[1]:endY, 1])
+            bg[point[0]:endX, point[1]:endY, 2] = np.where(self.img[:max(endX-point[0],0),:max(endY-point[1],0),3] > 127, self.img[:max(endX-point[0],0),:max(endY-point[1],0),2],bg[point[0]:endX, point[1]:endY, 2])
+        except:
+            for x in range(self.img.shape[0]):
+                for y in range(self.img.shape[1]):
+                    if x + point[0] - int(rows/2) < bg.shape[0] and y + point[1] - int(columns/2) < bg.shape[1]:
+                        if self.img[x,y,3] > 127:
+                            bg[x+point[0]-int(rows/2),y+point[1]-int(columns/2)] = bgr_img[x,y]
 
     def set(self,x,y):
         self.x = x
@@ -58,6 +69,9 @@ class IntelligentObject():
         self.velocity = [x,y]
 
     def resolve(self, body_part):
+        '''
+        resolve a collision between an intelligent object and a body part
+        '''
         collisionVector = np.array([body_part.calculate_center()[0] - self.calculate_center()[0], body_part.calculate_center()[1]-self.calculate_center()[1]])
         collisionVector = collisionVector/ np.linalg.norm(collisionVector)
 
@@ -75,6 +89,8 @@ class IntelligentObject():
             root = (-b - discriminant)/(2 * a)
         self.velocity = self.velocity + collisionVector * (vB - root)
 
+    def pow(self, bg):
+        POW.draw_at(bg, (int(self.x), int(self.y)))
 
     def make_noise(self):
         play_sound(self.sound)
@@ -152,6 +168,7 @@ if __name__ == '__main__':
         background_frames.append(frame)
     cap.release()
 
+    POW = IntelligentObject(cv2.imread('./images/pow.png', cv2.IMREAD_UNCHANGED), None, 0.08, 0.08,x=30,y=30)
     hillary = IntelligentObject(cv2.imread('./images/hillary.png', cv2.IMREAD_UNCHANGED),'./sounds/nasty_woman.wav', 0.2, 0.2,x=10,y=10)
     obama = IntelligentObject(cv2.imread('./images/obama.png', cv2.IMREAD_UNCHANGED), './sounds/fired.wav',x=150,y=150)
     trump = IntelligentObject(cv2.imread('./images/trump.png', cv2.IMREAD_UNCHANGED), None,0.2,0.2)
@@ -205,6 +222,7 @@ if __name__ == '__main__':
             for body_part in body_parts:
                 if distance(intel.calculate_center(), body_part.calculate_center()) <= intel.radius + body_part.radius:
                     intel.resolve(body_part)
+                    intel.pow(copy)
                     if count not in sound:
                         sound[count] = []
                     sound[count].append(intel)
