@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.8.31)  21 OCT 2018 20:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.8.31)  21 OCT 2018 20:26
 entering extended mode
 **./Report.tex
 (Report.tex
@@ -104,18 +104,18 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 ) (Report.aux)
 \openout1 = `Report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -216,28 +216,28 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <20.74> on input line 16.
+(Font)              <20.74> on input line 17.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 16.
+(Font)              <14.4> on input line 17.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 16.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 16.
+(Font)              <12> on input line 17.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 17.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <14.4> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 16.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 17.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 16.
+(Font)              <7> on input line 17.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 16.
+(Font)              <5> on input line 17.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <7> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 16.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 17.
 <./images/usyd.png, id=1, 74.9199pt x 71.5473pt>
 File: ./images/usyd.png Graphic file (type png)
 <use ./images/usyd.png>
-Package pdftex.def Info: ./images/usyd.png  used on input line 18.
+Package pdftex.def Info: ./images/usyd.png  used on input line 19.
 (pdftex.def)             Requested size: 113.81102pt x 108.69513pt.
  [1
 
@@ -256,29 +256,29 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout4 = `Report.toc'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--32
+Underfull \hbox (badness 10000) in paragraph at lines 30--33
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 35--39
+Underfull \hbox (badness 10000) in paragraph at lines 36--40
 
  []
 
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 42.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 43.
 [1]
-Underfull \hbox (badness 10000) in paragraph at lines 64--66
+Underfull \hbox (badness 10000) in paragraph at lines 65--67
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 67--68
+Underfull \hbox (badness 10000) in paragraph at lines 68--69
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 69--72
+Underfull \hbox (badness 10000) in paragraph at lines 70--73
 
  []
 
@@ -286,57 +286,57 @@ Underfull \hbox (badness 10000) in paragraph at lines 69--72
 <./images/original.png, id=21, 629.35126pt x 354.57469pt>
 File: ./images/original.png Graphic file (type png)
 <use ./images/original.png>
-Package pdftex.def Info: ./images/original.png  used on input line 92.
+Package pdftex.def Info: ./images/original.png  used on input line 93.
 (pdftex.def)             Requested size: 227.62204pt x 128.24193pt.
 <./images/replaced.png, id=22, 428.35031pt x 240.14719pt>
 File: ./images/replaced.png Graphic file (type png)
 <use ./images/replaced.png>
-Package pdftex.def Info: ./images/replaced.png  used on input line 96.
+Package pdftex.def Info: ./images/replaced.png  used on input line 97.
 (pdftex.def)             Requested size: 227.62204pt x 127.61084pt.
  [3 <./images/original.png>]
 <./images/pow.png, id=27, 426.09187pt x 241.65282pt>
 File: ./images/pow.png Graphic file (type png)
 <use ./images/pow.png>
-Package pdftex.def Info: ./images/pow.png  used on input line 107.
+Package pdftex.def Info: ./images/pow.png  used on input line 108.
 (pdftex.def)             Requested size: 227.62204pt x 129.09676pt.
 <./images/192.png, id=28, 570.13pt x 321.2pt>
 File: ./images/192.png Graphic file (type png)
 <use ./images/192.png>
-Package pdftex.def Info: ./images/192.png  used on input line 121.
+Package pdftex.def Info: ./images/192.png  used on input line 122.
 (pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
 <./images/193.png, id=29, 570.13pt x 321.2pt>
 File: ./images/193.png Graphic file (type png)
 <use ./images/193.png>
-Package pdftex.def Info: ./images/193.png  used on input line 125.
+Package pdftex.def Info: ./images/193.png  used on input line 126.
 (pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
 File: ./images/193.png Graphic file (type png)
 <use ./images/193.png>
-Package pdftex.def Info: ./images/193.png  used on input line 129.
+Package pdftex.def Info: ./images/193.png  used on input line 130.
 (pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
 <./images/194.png, id=30, 570.13pt x 321.2pt>
 File: ./images/194.png Graphic file (type png)
 <use ./images/194.png>
-Package pdftex.def Info: ./images/194.png  used on input line 133.
+Package pdftex.def Info: ./images/194.png  used on input line 134.
 (pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
 <./images/195.png, id=31, 570.13pt x 321.2pt>
 File: ./images/195.png Graphic file (type png)
 <use ./images/195.png>
-Package pdftex.def Info: ./images/195.png  used on input line 137.
+Package pdftex.def Info: ./images/195.png  used on input line 138.
 (pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
 <./images/196.png, id=32, 570.13pt x 321.2pt>
 File: ./images/196.png Graphic file (type png)
 <use ./images/196.png>
-Package pdftex.def Info: ./images/196.png  used on input line 141.
+Package pdftex.def Info: ./images/196.png  used on input line 142.
 (pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
 <./images/883.png, id=33, 570.13pt x 321.2pt>
 File: ./images/883.png Graphic file (type png)
 <use ./images/883.png>
-Package pdftex.def Info: ./images/883.png  used on input line 149.
+Package pdftex.def Info: ./images/883.png  used on input line 150.
 (pdftex.def)             Requested size: 209.1301pt x 117.81781pt.
 <./images/952.png, id=34, 570.13pt x 321.2pt>
 File: ./images/952.png Graphic file (type png)
 <use ./images/952.png>
-Package pdftex.def Info: ./images/952.png  used on input line 153.
+Package pdftex.def Info: ./images/952.png  used on input line 154.
 (pdftex.def)             Requested size: 209.1301pt x 117.81781pt.
  [4 <./images/replaced.png> <./images/pow.png>]
 (Report.lof [5 <./images/192.png (PNG copy)> <./images/193.png (PNG copy)> <./i
@@ -354,7 +354,7 @@ Here is how much of TeX's memory you used:
  6702 multiletter control sequences out of 15000+200000
  9723 words of font info for 34 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,7n,40p,275b,437s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,7n,40p,660b,455s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx1
 2.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:
 /Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program 
@@ -362,7 +362,7 @@ Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiK
 TeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fo
 nts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
 1/public/amsfonts/cm/cmsy7.pfb>
-Output written on Report.pdf (7 pages, 1205407 bytes).
+Output written on Report.pdf (7 pages, 1206992 bytes).
 PDF statistics:
  70 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
