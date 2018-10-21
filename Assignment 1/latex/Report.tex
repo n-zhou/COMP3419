@@ -1,5 +1,5 @@
 \documentclass[12pt,a4paper]{article}
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{3}
 \usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
@@ -48,8 +48,33 @@
       Various structuring elements were used when experimenting with the morophological operations. A square structuring element was found to...
 
     \section{Conclusion}
+
     The implementation of k-medoids was very susceptible to noise. Fast movements would often results in the clusters being messed up.\
-    The crossing over of red markers did not...
+    The cross over of the two legs markers resulted did not break the clustering algorithm in matching the motions of the monkey. The\
+    heavy amount of erosion performed on the image prevented the two clusters from forming a single one.
+
+      \subsection{Motion Capture}
+
+      Despite the many draw backs of the implementation, all four tasks required for the assignment were certainly met successfully.\
+      Most of the motions of the monkey were accurately captured using the K-Medoids classifier.
+
+      \subsection{Background and Marionette Replacement}
+
+      The blue background and the monkey was replaced as required by the specification. The character replacement (Donald Trump) simulated the gestures of the monkey and\
+      had all 5 connected components.
+
+      \subsection{Intelligent Objects}
+
+      The condition of having two intelligent objects interact with the marionette was met and their\
+      motions were certainly affected when they came into contact with each other. A requirement of a special effect being trigged\
+      when iteractions happen was satisfied as demonstrated in figure 1.
+
+      \subsection{Sound Track}
+
+      Two soundtracks were programmed for the video. They are triggered to play when the intelligent objects colllide with the marionette.\
+      The sound track that is played depends on the type of intelligent object that collides with the marionette. If it is an Obama object,\
+      the sound track "you're fired" is played. Alternatively, when a Hillary object collides with the marionette, the "such a nasty woman"\
+      sound track is played.
 
     \begin{figure}[h]
       \caption{A still image of a special effect being triggered when an intelligent object collides with the marionette}
