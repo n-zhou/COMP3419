@@ -28,17 +28,11 @@ class IntelligentObject():
 
     def draw_on_background(self, bg):
         bgr_img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
-        try:
-            self.draw_at(bg, (int(self.x), int(self.y)))
-        except:
-            '''
-            use for loops if and exception is caught
-            '''
-            for x in range(self.img.shape[0]):
-                for y in range(self.img.shape[1]):
-                    if x + self.x < bg.shape[0] and y + self.y < bg.shape[1]:
-                        if self.img[x,y,3] > 127:
-                            bg[int(x+self.x),int(y+self.y)] = bgr_img[x,y]
+        for x in range(self.img.shape[0]):
+            for y in range(self.img.shape[1]):
+                if x + self.x < bg.shape[0] and y + self.y < bg.shape[1]:
+                    if self.img[x,y,3] > 127:
+                        bg[int(x+self.x),int(y+self.y)] = bgr_img[x,y]
 
     def calculate_center(self):
         return int(self.x+self.img.shape[0]/2), int(self.y + self.img.shape[1] / 2)
@@ -208,7 +202,6 @@ if __name__ == '__main__':
         copy = np.copy(cv2.resize(background_frames[count], (568,320)))
         cluster_keys = list(clusters.keys())
         for counter, centroid in enumerate(clusters):
-            body_parts[counter].draw_at(copy,centroid)
 
             if body_parts[counter].x is None:
                 body_parts[counter].set(centroid[0], centroid[1])
@@ -216,6 +209,10 @@ if __name__ == '__main__':
             else:
                 body_parts[counter].set_velocity(centroid[0]-body_parts[counter].x, centroid[1]-body_parts[counter].y)
                 body_parts[counter].set(centroid[0], centroid[1])
+
+        for counter, centroid in enumerate(clusters):
+            cv2.line(copy, (body_parts[counter].calculate_center()[1],body_parts[counter].calculate_center()[0]), (body_parts[-1].calculate_center()[1], body_parts[-1].calculate_center()[0]), (0,153,204), thickness=5)
+            body_parts[counter].draw_at(copy,centroid)
         for intel in intelligent_objects:
             intel.draw_on_background(copy)
             intel.move()
