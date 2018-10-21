@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.8.31)  21 OCT 2018 17:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.8.31)  21 OCT 2018 19:16
 entering extended mode
 **./Report.tex
 (Report.tex
@@ -288,87 +288,94 @@ File: ./images/original.png Graphic file (type png)
 <use ./images/original.png>
 Package pdftex.def Info: ./images/original.png  used on input line 95.
 (pdftex.def)             Requested size: 227.62204pt x 128.24193pt.
+<./images/replaced.png, id=22, 428.35031pt x 240.14719pt>
+File: ./images/replaced.png Graphic file (type png)
+<use ./images/replaced.png>
+Package pdftex.def Info: ./images/replaced.png  used on input line 99.
+(pdftex.def)             Requested size: 227.62204pt x 127.61084pt.
  [3 <./images/original.png>]
-<./images/pow.png, id=26, 426.09187pt x 241.65282pt>
+<./images/pow.png, id=27, 426.09187pt x 241.65282pt>
 File: ./images/pow.png Graphic file (type png)
 <use ./images/pow.png>
-Package pdftex.def Info: ./images/pow.png  used on input line 113.
+Package pdftex.def Info: ./images/pow.png  used on input line 111.
 (pdftex.def)             Requested size: 227.62204pt x 129.09676pt.
-<./images/192.png, id=27, 570.13pt x 321.2pt>
+<./images/192.png, id=28, 570.13pt x 321.2pt>
 File: ./images/192.png Graphic file (type png)
 <use ./images/192.png>
-Package pdftex.def Info: ./images/192.png  used on input line 118.
-(pdftex.def)             Requested size: 106.69783pt x 60.10722pt.
-<./images/193.png, id=28, 570.13pt x 321.2pt>
+Package pdftex.def Info: ./images/192.png  used on input line 126.
+(pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
+<./images/193.png, id=29, 570.13pt x 321.2pt>
 File: ./images/193.png Graphic file (type png)
 <use ./images/193.png>
-Package pdftex.def Info: ./images/193.png  used on input line 119.
-(pdftex.def)             Requested size: 106.69783pt x 60.10722pt.
+Package pdftex.def Info: ./images/193.png  used on input line 130.
+(pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
 File: ./images/193.png Graphic file (type png)
 <use ./images/193.png>
-Package pdftex.def Info: ./images/193.png  used on input line 120.
-(pdftex.def)             Requested size: 106.69783pt x 60.10722pt.
-<./images/194.png, id=29, 570.13pt x 321.2pt>
+Package pdftex.def Info: ./images/193.png  used on input line 134.
+(pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
+<./images/194.png, id=30, 570.13pt x 321.2pt>
 File: ./images/194.png Graphic file (type png)
 <use ./images/194.png>
-Package pdftex.def Info: ./images/194.png  used on input line 121.
-(pdftex.def)             Requested size: 106.69783pt x 60.10722pt.
-<./images/195.png, id=30, 570.13pt x 321.2pt>
+Package pdftex.def Info: ./images/194.png  used on input line 138.
+(pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
+<./images/195.png, id=31, 570.13pt x 321.2pt>
 File: ./images/195.png Graphic file (type png)
 <use ./images/195.png>
-Package pdftex.def Info: ./images/195.png  used on input line 122.
-(pdftex.def)             Requested size: 106.69783pt x 60.10722pt.
-<./images/196.png, id=31, 570.13pt x 321.2pt>
+Package pdftex.def Info: ./images/195.png  used on input line 142.
+(pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
+<./images/196.png, id=32, 570.13pt x 321.2pt>
 File: ./images/196.png Graphic file (type png)
 <use ./images/196.png>
-Package pdftex.def Info: ./images/196.png  used on input line 123.
-(pdftex.def)             Requested size: 106.69783pt x 60.10722pt.
-<./images/197.png, id=32, 570.13pt x 321.2pt>
-File: ./images/197.png Graphic file (type png)
-<use ./images/197.png>
-Package pdftex.def Info: ./images/197.png  used on input line 124.
-(pdftex.def)             Requested size: 106.69783pt x 60.10722pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 118--125
-[][] [] []
- []
+Package pdftex.def Info: ./images/196.png  used on input line 146.
+(pdftex.def)             Requested size: 136.57635pt x 76.94254pt.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 118--125
-[] [] []
- []
+! LaTeX Error: There's no line here to end.
 
-<./images/952.png, id=33, 570.13pt x 321.2pt>
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.153         \begin
+                    {figure}[H]
+? q
+OK, entering \batchmode...
+<./images/883.png, id=33, 570.13pt x 321.2pt>
+File: ./images/883.png Graphic file (type png)
+<use ./images/883.png>
+Package pdftex.def Info: ./images/883.png  used on input line 156.
+(pdftex.def)             Requested size: 209.1301pt x 117.81781pt.
+<./images/952.png, id=34, 570.13pt x 321.2pt>
 File: ./images/952.png Graphic file (type png)
 <use ./images/952.png>
-Package pdftex.def Info: ./images/952.png  used on input line 129.
-(pdftex.def)             Requested size: 227.62204pt x 128.23756pt.
-(Report.lof [4 <./images/pow.png> <./images/192.png (PNG copy)> <./images/193.p
-ng (PNG copy)> <./images/194.png (PNG copy)> <./images/195.png (PNG copy)> <./i
-mages/196.png (PNG copy)> <./images/197.png (PNG copy)> <./images/952.png (PNG 
-copy)>])
+Package pdftex.def Info: ./images/952.png  used on input line 160.
+(pdftex.def)             Requested size: 209.1301pt x 117.81781pt.
+ [4 <./images/replaced.png> <./images/pow.png>] (Report.lof)
 \tf@lof=\write5
 \openout5 = `Report.lof'.
 
- [5] (Report.aux) ) 
+ [5 <./images/192.png (PNG copy)> <./images/193.png (PNG copy)> <./images/194.p
+ng (PNG copy)> <./images/195.png (PNG copy)> <./images/196.png (PNG copy)> <./i
+mages/883.png (PNG copy)> <./images/952.png (PNG copy)>] (Report.aux) ) 
 Here is how much of TeX's memory you used:
- 3178 strings out of 493308
- 50074 string characters out of 3138768
- 114210 words of memory out of 3000000
- 6691 multiletter control sequences out of 15000+200000
- 9423 words of font info for 33 fonts, out of 3000000 for 9000
+ 3190 strings out of 493308
+ 50327 string characters out of 3138768
+ 115210 words of memory out of 3000000
+ 6702 multiletter control sequences out of 15000+200000
+ 9723 words of font info for 34 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,6n,40p,275b,259s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pf
-b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Pro
-gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program File
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on Report.pdf (6 pages, 955196 bytes).
+ 42i,7n,40p,275b,437s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Prog
+ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program File
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+msy7.pfb>
+Output written on Report.pdf (6 pages, 1203905 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
+ 65 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 
