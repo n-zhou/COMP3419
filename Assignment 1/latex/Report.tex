@@ -1,28 +1,53 @@
 \documentclass[12pt,a4paper]{article}
-\setcounter{tocdepth}{3}
+\setcounter{tocdepth}{4}
 \usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
 \usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{float}
 \graphicspath{ {./images/} }
 
 \begin{document}
 
     \begin{titlepage}
-        \title{COMP3419 Assignment 1}
+        \centering
+        \title{COMP3419 Assignment 1\thanks{Option 1}}
         \author{Nick Zhou 460363707}
         \date{October 2018}
         \maketitle
+        \centering
+        \includegraphics[width=4cm]{usyd}\\[2cm]
     \end{titlepage}
 
     \begin{tableofcontents}
         \tableofcontents
-        \pagebreak
     \end{tableofcontents}
 
     \section{Introduction}
-    The task of this assignment was to program a short video involving digital video processing, compositing and 2D animation techniques.\
-    The output is a piece of animation based on the provided clip. The video was of a marionette monkey with red markers on the head, hands\
-    abd feet. Our task invovled tracking these red markets in order to determine the motion of the marionette monkey and recreate it with\
-    our own character. The programming language used to complete this assignment was python3 on the windows operating system.
+
+      \subsection{Preamble}
+
+      The purpose of this report is to demonstrate the pipeline used to complete the COMP3419 Assignment (Option 1). This report consists of\
+      a three main sections, introduction, implementation and conclusion. This report was created with \LaTeX{} as required by the assignment\
+      specification.\\
+
+      \subsection{Task}
+
+      The task of this assignment was to program a short video involving digital video processing, compositing and 2D animation techniques.\
+      The output is a piece of animation based on the provided clip. The video was of a marionette monkey with red markers on the head, hands\
+      abd feet. Our task invovled tracking these red markets in order to determine the motion of the marionette monkey and recreate it with\
+      our own character. The programming language used to complete this assignment was python3 on the windows operating system.\\
+
+      In summary this assignment task was broken into a set of 4  subtasks excluding this report:
+      \begin{itemize}
+        \item Motion Capture: The body of the monkey is labelled with red markets. The subtask involved segmenting the red markers in order to\
+        track the motions of the monkey.
+        \item Replace Background and Marionette: The blue background was to be replaced with a dynamic background. The monkey marionette was to\
+        be replaced with our own character with the original motions of the old marionette being preserved.
+        \item Intelligent Objects: Two randomly moving must be added to the video and interact with the marionette in at least two different ways.\
+        Special effects were to be triggered when interactions between the marionette and intelligent object occurs.
+        \item Sound Track: At least two sound tracks must be added to the video. The sound track should relate to the interaction between\
+        the intelligent objects and the marionette.
+      \end{itemize}
 
     \section{Implementation}
     The red parts of the monkey were found by first converting the frames to HSV (Hue Saturation Value) and then applying a threshold. The\
@@ -38,13 +63,16 @@
       \subsection{Experimental Results}
       In trying to find the red dots on the monkey, various morphological techniques were used. Performing a closing operating resulted in the\
       "clusters" that had very low dissimilarity.
-      \\\\
+      \\
+
       An opening operation yielded a result where the 5 red markers were more easy to discern and very dissimilar to each other.
-      \\\\
+      \\
+
       Various other operations such as alternating between erosion and dilation operations with different number of itereations were performed.\
       Eroding for more than 2 iterations before performing a dilation resulted in too few red pixels being retained. If dilating was performed first,\
       the red dots joined too close to each other. This resulted in poorer cluster centers.
-      \\\\
+      \\
+
       Various structuring elements were used when experimenting with the morophological operations. A square structuring element was found to...
 
     \section{Conclusion}
@@ -76,19 +104,27 @@
       the sound track "you're fired" is played. Alternatively, when a Hillary object collides with the marionette, the "such a nasty woman"\
       sound track is played.
 
-    \begin{figure}[h]
-      \caption{A still image of a special effect being triggered when an intelligent object collides with the marionette}
-      \includegraphics[width=8cm]{pow}
-    \end{figure}
+        \begin{figure}[H]
+          \includegraphics[width=8cm]{pow}
+          \caption{A still image of a special effect being triggered when an intelligent object collides with the marionette}
+        \end{figure}
 
-    \begin{figure}[h]
-      \caption{Example of the marked centers being accurate}
-      \includegraphics[width=8cm]{192}
-    \end{figure}
+        \begin{figure}[H]
+          \begin{subfigure}[b]{\linewidth}
+            \includegraphics[width=0.25\linewidth]{192}
+            \includegraphics[width=0.25\linewidth]{193}
+            \includegraphics[width=0.25\linewidth]{193}
+            \includegraphics[width=0.25\linewidth]{194}
+            \includegraphics[width=0.25\linewidth]{195}
+            \includegraphics[width=0.25\linewidth]{196}
+            \includegraphics[width=0.25\linewidth]{197}
+          \end{subfigure}
+          \caption{Example of the marked centers being accurate}
+        \end{figure}
 
-    \begin{figure}[h]
-      \caption{Example of the clusters being misidentified}
-      \includegraphics[width=8cm]{952}
-    \end{figure}
+        \begin{figure}[H]
+          \includegraphics[width=8cm]{952}
+          \caption{Example of the clusters being misidentified}
+        \end{figure}
 
 \end{document}
